@@ -1,0 +1,5 @@
+<div>Welcome to python django world!</div>
+{% if request.user.is_authenticated %}
+<div>{{ user.name }}</div>
+<div>{{ user }}</div>
+{% endif %}
