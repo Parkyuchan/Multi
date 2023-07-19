@@ -1,7 +1,7 @@
-<div>Welcome to python django world!</div>
+<div>공공데이터 대회 사이트</div>
 {% if request.user.is_authenticated %}
-<div>{{ user.name }}</div>
-<div>{{ user }}</div>
+<div>{{ user.username }}님 안녕하세요</div>
+<a href="/accounts/logout">로그아웃</a>
 {% else %}
 <a href="/accounts/register">회원가입</a>
 <a href="/accounts/login">로그인</a>
