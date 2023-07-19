@@ -2,4 +2,7 @@
 {% if request.user.is_authenticated %}
 <div>{{ user.name }}</div>
 <div>{{ user }}</div>
+{% else %}
+<a href="/accounts/register">회원가입</a>
+<a href="/accounts/login">로그인</a>
 {% endif %}

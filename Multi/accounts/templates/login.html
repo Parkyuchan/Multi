@@ -1,5 +1,5 @@
-
-    <div class="row justify-content-center">
+<!--
+  <div class="row justify-content-center">
         <form method="post" class="text-center border border-light p-5">
             {% csrf_token %}
             <p class="h4 mb-4 text-center">로그인</p>
@@ -24,11 +24,24 @@
                     <p>{{ login_form.non_field_errors }}</p>
                 </div>
  
-            {% endif %}-
+            {% endif %}
             <button class="btn btn-info btn-block my-4" type="submit">로그인</button>
 -        </form>
  
         <div class="d-flex flex-column my-4">
             {#    <a class="m-auto" href="{% url 'password_reset' %}">Reset password</a>#}
         </div>
-    </div> 
+    </div> -->
+
+     
+{% if user.is_authenticated %}
+로그인성공!
+{{ user.username}}님 환영합니다.
+{% else %}
+<form action="" method="POST">
+{% csrf_token %}
+<input name ="username" type="username">
+<input name ="password" type="password">
+<input type ="submit" value="로그인">
+</form>
+{% endif %}
