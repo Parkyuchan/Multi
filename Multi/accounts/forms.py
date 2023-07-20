@@ -1,8 +1,6 @@
 # account/forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate
-from .models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
  
 # 회원 가입 폼
@@ -28,20 +26,8 @@ class RegistrationForm(UserCreationForm):
         except Exception as e:
             return username
         raise forms.ValidationError(f"UserID {username} is already in use.")
- 
- 
- 
-# 로그인 인증 폼
-'''class AccountAuthForm(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
- 
+
+class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
-        fields = ('email', 'password')
- 
-    def clean(self):
-        if self.is_valid():
-            email = self.cleaned_data['email']
-            password = self.cleaned_data['password']
-            if not authenticate(email=email, password=password):
-                raise forms.ValidationError("Invalid login")'''
+        fields = ('username', 'old', 'phone', 'address', 'email')

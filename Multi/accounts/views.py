@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import User
 from django.contrib import auth
 from django.http import HttpResponse
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from .forms import RegistrationForm
 from django.contrib.auth.decorators import login_required
+from .forms import CustomUserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
+
 
 # Create your views here.
 
@@ -58,7 +60,7 @@ def login_view(request, *args, **kwargs):
         if user is not None:
             # 로그인 한다
             auth.login(request, user)
-            return redirect('/accounts')
+            return redirect('home')
         # 존재하지 않는다면
         else:
             # 딕셔너리에 에러메세지를 전달하고 다시 login.html 화면으로 돌아간다.
@@ -67,34 +69,19 @@ def login_view(request, *args, **kwargs):
     else:
         return render(request, 'login.html')
 
-'''def login_view(request, *args, **kwargs):
-    context = {}
- 
-    user = request.user
-    if user.is_authenticated:
-        return redirect('home')
- 
-    destination = get_redirect_if_exists(request)
-    if request.POST:
-        form = AccountAuthForm(request.POST)
+@login_required
+def update(request, pk):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user) # 이게 없으면 수정할 때마다 새로운 계정을 만든다.
         if form.is_valid():
-            email = request.POST.get('email')
-            password = request.POST.get('password')
-            user = authenticate(email=email, password=password)
-            if user:
-                auth.login(request, user)
-                return redirect('/accounts')
-                #login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                if destination:
-                    return redirect(destination)
-                return redirect('home')
+            form.save()
+            return redirect('home')
     else:
-        form = AccountAuthForm()
- 
-    context['login_form'] = form
- 
-    return render(request, 'login.html', context)'''
- 
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'update.html', context)
  
 def get_redirect_if_exists(request):
     redirect = None
@@ -102,3 +89,17 @@ def get_redirect_if_exists(request):
         if request.GET.get("next"):
             redirect = str(request.GET.get("next"))
     return redirect
+
+@login_required
+def change_password(request,pk):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            # 비밀번호를 바꾸면 기존 세션과 일치하지 않게 되어 로그아웃된다. 이를 방지하기 위한 auth_hash 갱신.
+            update_session_auth_hash(request, user)  
+            return redirect('home')
+    
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html',{'form':form})
