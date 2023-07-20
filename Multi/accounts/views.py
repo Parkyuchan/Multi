@@ -103,3 +103,10 @@ def change_password(request,pk):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'change_password.html',{'form':form})
+
+@login_required
+def delete(request) :
+    user = request.user
+    user.delete()
+    return redirect('home')
+    

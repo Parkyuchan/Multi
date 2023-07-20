@@ -4,3 +4,8 @@
         {% bootstrap_form form %}
         <button class="btn btn-primary">수정</button>
     </form>
+
+    <form action="/accounts/delete/" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="회원탈퇴">
+    </form>
