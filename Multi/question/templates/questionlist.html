@@ -1,0 +1,24 @@
+{% for q in question_list %}
+<div class="container marketing" style="margin-top: 5vh; text-align: center;">
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+        <div class="col-lg-4">
+            <h2 class="fw-normal">{{q.pk}}번 질문 {{q.question_text}}</h2>
+            {% if q.choice1 %}
+                <p>1. {{q.choice1}}</p>
+            {% endif %}
+            {% if q.choice2 %}
+                <p>2. {{q.choice2}}</p>
+            {% endif %}
+            {% if q.choice3 %}
+                <p>3. {{q.choice3}}</p>
+            {% endif %}
+            {% if q.choice4 %}
+                <p>4. {{q.choice4}}</p>
+            {% endif %}
+            <h5>1~4번중 고르시오(번호만 입력할 것)<h5>
+                <input name ="answer" type="answer">
+        </div>
+    </div>
+</div>
+{% endfor %}
