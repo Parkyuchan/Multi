@@ -1,0 +1,13 @@
+{% include 'first/base.html' %}
+
+{% if user.is_authenticated %}
+    로그인성공!
+    {{ user.username}}님 환영합니다.
+{% else %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input name ="username" type="username">
+        <input name ="password" type="password">
+        <input type ="submit" value="로그인">
+    </form>
+{% endif %}

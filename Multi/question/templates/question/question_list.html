@@ -1,0 +1,20 @@
+{% include "first/base.html" %}
+{% for q in question_list %}
+<div class="container marketing" style="margin-top: 5vh; text-align: center;">
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+        <div class="col-lg-4">
+            <h2 class="fw-normal">{{q.pk}}. 질문 {{q.question_text}}</h2>
+            {% for c in q.choice_set.iterator %}
+                {% if c.answer %}
+                    <h3>답변을 완료했습니다.</h3>
+                    {% if c.answer.pk == c.choice.pk %}
+                        <h4>선택한 답변: {{ c.choice }}</h4>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <a href="{{q.pk}}/">답변하기</a>
+        </div>
+    </div>
+</div>
+{% endfor %}

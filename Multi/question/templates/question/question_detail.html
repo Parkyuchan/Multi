@@ -1,0 +1,21 @@
+<h1 class="fw-normal">{{question.pk}}번 질문 {{question_text}}</h1>
+<h2>*주의* 하나만 체크해주세요!!!</h2>
+
+{% for c in question.choice_set.iterator %}
+    <form action="/question/{{c.pk}}/complete/" method="POST">
+        {% csrf_token %}
+        <div class="container marketing" style="margin-top: 5vh; text-align: center;">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="list-group-item">
+                        {% if c.answer %}
+                            <button type="submit">"{{c.choice}}"로 선택</button>
+                        {% else %}
+                            <button type="submit">"{{c.choice}}"로 선택</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endfor %}
