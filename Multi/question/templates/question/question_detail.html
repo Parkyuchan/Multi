@@ -1,4 +1,12 @@
 <h1 class="fw-normal">{{question.pk}}번 질문 {{question_text}}</h1>
+{% for c in question.choice_set.iterator %}
+    {% if question.question_complete and c.answer %}
+        <h3>답변을 완료했습니다.</h3>
+    {% endif %}
+    {% if c.answer.pk == c.choice.pk and c.answer%}
+        <h4>선택한 답변: {{ c.choice }}</h4>
+    {% endif %}
+{% endfor %}
 <h2>*주의* 하나만 체크해주세요!!!</h2>
 
 {% for c in question.choice_set.iterator %}
@@ -9,9 +17,9 @@
                 <div class="col-lg-4">
                     <div class="list-group-item">
                         {% if c.answer %}
-                            <button type="submit">"{{c.choice}}"로 선택</button>
+                            <button type="submit">"{{c.choice}}" 답변 취소하기</button>
                         {% else %}
-                            <button type="submit">"{{c.choice}}"로 선택</button>
+                            <button type="submit">"{{c.choice}}" 답변 선택하기</button>
                         {% endif %}
                     </div>
                 </div>
