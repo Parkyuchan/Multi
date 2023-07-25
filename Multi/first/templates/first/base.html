@@ -10,6 +10,8 @@
                         <div>{{ user.username }}님 안녕하세요</div>
                         <a href="/accounts/logout/">로그아웃</a>
                         <a href="/accounts/{{user.pk}}/update/">마이페이지</a>
+                        <a href="/accounts/{{user.pk}}/choice_alone/">독거노인 선택</a>
+                        <a href="/accounts/{{user.pk}}/choice_volunteer/">봉사자 선택</a>
                     {% else %}
                         <a href="/accounts/login/">로그인</a>
                         <a href="/accounts/register/">회원가입</a>

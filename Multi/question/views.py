@@ -17,13 +17,14 @@ def complete(request, pk):
         question.question_complete=True
         choices.save()
         question.save()
-        messages.success(request, '선택을 완료했습니다.')
+        return redirect('/question')
     elif(choices.answer == True) :
         choices.answer = False
         question.question_complete=False
         choices.save()
         question.save()
-        messages.success(request, '선택을 취소했습니다.')
+        return redirect('/question')
     else:
-        messages.error(request, '이미 선택하셨습니다.')
-    return redirect('/question')
+        choices.save()
+        question.save()
+        return redirect(question.get_absolute_url())

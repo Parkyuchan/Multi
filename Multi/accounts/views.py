@@ -1,11 +1,25 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth
 from django.http import HttpResponse
-from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
-from .forms import RegistrationForm
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash, get_user_model
+from .forms import RegistrationForm, CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
+from .models import Volunteer, User, Alone
+
+def volunteer_choice(request, pk):
+    volunteer = get_object_or_404(Volunteer, pk=pk)
+    user = User.objects.get(id=volunteer.user.pk)
+    volunteer.volunteer=True
+    volunteer.save()
+    return redirect('/')
+
+def alone_choice(request, pk):
+    alone = get_object_or_404(Alone, pk=pk)
+    user = User.objects.get(id=alone.user.pk)
+    alone.alone=True
+    alone.save()
+    return redirect('/')
 
 def register_view(request, *args, **kwargs):
     user = request.user
@@ -57,7 +71,7 @@ def login_view(request, *args, **kwargs):
         # 존재하지 않는다면
         else:
             # 딕셔너리에 에러메세지를 전달하고 다시 login.html 화면으로 돌아간다.
-            return render(request, 'accounts/login.html', {'error' : 'username or password is incorrect.'})
+            return render(request, 'accounts/login.html')
     # login으로 GET 요청이 들어왔을때, 로그인 화면을 띄워준다.
     else:
         return render(request, 'accounts/login.html')

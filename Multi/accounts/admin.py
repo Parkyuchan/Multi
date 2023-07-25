@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, Volunteer, Alone
 
 class UserAdmin(UserAdmin):
     # 관리자 화면에 보여질 칼럼 지정
@@ -20,3 +20,5 @@ class UserAdmin(UserAdmin):
     )
 
 admin.site.register(User, UserAdmin)
+admin.site.register(Volunteer)
+admin.site.register(Alone)

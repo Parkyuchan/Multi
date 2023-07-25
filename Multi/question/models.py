@@ -7,6 +7,9 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
     
+    def get_absolute_url(self):
+        return f'/question/{self.pk}'
+    
 class Choice(models.Model) :
     choice = models.CharField(max_length=20, blank=True)
     answer = models.BooleanField(default=False, blank=True)

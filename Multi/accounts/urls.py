@@ -8,4 +8,6 @@ urlpatterns = [
     path('<int:pk>/update/', views.update, name='update'),
     path('<int:pk>/password/', views.change_password, name='change_password'),
     path('delete/', views.delete, name='delete'),
+    path('<int:pk>/choice_volunteer/', views.volunteer_choice, name='volunteer_choice'),
+    path('<int:pk>/choice_alone/', views.alone_choice, name='alone_choice'),
 ]
