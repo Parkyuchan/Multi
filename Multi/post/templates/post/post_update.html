@@ -1,0 +1,12 @@
+{% include "first/base.html" %}
+{% load bootstrap4 %}
+
+<div class="container">
+  <form method="POST">
+      {% csrf_token %}
+      {% bootstrap_form postForm %}
+
+      <p><input type="date" value="2019-09-22" min="2019-09-10" max="2019-09-25"></p>
+      <input class="btn btn-dark rounded-pill col-12" type="submit" value="수정하기" onclick="location.href='{{post.pk}}/update/'">
+  </form>
+</div>

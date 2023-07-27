@@ -1,0 +1,24 @@
+{% include "first/base.html" %}
+
+{% if user.is_authenticated and user.volunteer == False%}
+    <a class="btn btn-info btn-sm float-right" href="/post/create_post/" role="button" 
+    style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i class="fas fa-pen"></i>글쓰기</a>
+{% endif %}
+
+{% if post_list.exists %}   
+<!-- Blog post 영역-->
+{% for p in post_list %}     
+<div class="container my-4" id="post-{{p.pk}}">
+    <div class="container-body">
+        <h5 class="container-title" href="{{p.get_absolute_url}}"><a href="{{p.get_absolute_url}}" class="btn btn-primary" 
+           >{{p.title}}</a></h5>  
+    </div>
+    <div class="container-footer text-muted">
+        {{p.created_at|date:'y.m.d'}}
+    </div>
+</div>
+{% endfor %}      <!--for문 끝-->
+{% endif %}
+
+
+{% include 'post/post_search.html' %}

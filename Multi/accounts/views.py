@@ -5,21 +5,6 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from .forms import RegistrationForm, CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import Volunteer, User, Alone
-
-def volunteer_choice(request, pk):
-    volunteer = get_object_or_404(Volunteer, pk=pk)
-    user = User.objects.get(id=volunteer.user.pk)
-    volunteer.volunteer=True
-    volunteer.save()
-    return redirect('/')
-
-def alone_choice(request, pk):
-    alone = get_object_or_404(Alone, pk=pk)
-    user = User.objects.get(id=alone.user.pk)
-    alone.alone=True
-    alone.save()
-    return redirect('/')
 
 def register_view(request, *args, **kwargs):
     user = request.user

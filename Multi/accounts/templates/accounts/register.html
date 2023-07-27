@@ -32,7 +32,10 @@
             <input type="email" name="email" id="inputEmail" class="form-control"
                     placeholder="Email address" required autofocus>
         </div>
-        
+        <div>
+            <input type="checkbox" id="inputVolunteer" name="volunteer">
+            <label for="volunteer">자원봉사자</label>
+        </div>
         {% for field in registration_form %}
             <p>
                 {% for error in field.errors %}
