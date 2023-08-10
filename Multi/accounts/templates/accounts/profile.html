@@ -10,5 +10,15 @@
         {% else %}
             <a href="{% url 'accounts:follow' person.pk %}">신청하기</a>
         {% endif %}
-    {% endwith%}
+    {% endwith %}
+{% else %}
+    <hr>
+    {% with user_followers=person.followers.all %}
+    {% for list in user_list %}
+        {% if list in user_followers %}
+            {{list.username}}님이 신청하셨습니다.
+            <a href="#">{{list.username}}님 프로필 보기</a>
+        {% endif %}
+        {% endfor %}
+    {% endwith %}
 {% endif %}
