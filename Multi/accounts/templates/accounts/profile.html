@@ -17,7 +17,7 @@
     {% for list in user_list %}
         {% if list in user_followers %}
             {{list.username}}님이 신청하셨습니다.
-            <a href="#">{{list.username}}님 프로필 보기</a>
+            <a href="{% url 'accounts:profile_register' person.pk %}">{{list.username}}님 프로필 보기</a>
         {% endif %}
         {% endfor %}
     {% endwith %}

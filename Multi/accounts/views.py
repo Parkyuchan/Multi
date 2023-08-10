@@ -112,6 +112,16 @@ def profile(request, pk):
         'person' : person
     }
     return render(request, 'accounts/profile.html', context)
+
+def profile_register(request, pk):
+    user_list = get_user_model().objects.all()
+    user = get_user_model()
+    person = get_object_or_404(user, pk=pk)
+    context={
+        'user_list' : user_list,
+        'person' : person
+    }
+    return render(request, 'accounts/profile_register.html', context)
     
 @login_required
 def follow(request, pk):  

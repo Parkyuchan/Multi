@@ -10,7 +10,6 @@ class User(AbstractUser):
     address = models.CharField(max_length=50)
     volunteer = models.BooleanField(default=False, blank=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
-    checking = models.BooleanField(default=False, blank=True)
     
     def __str__(self):
         if self.volunteer == True:

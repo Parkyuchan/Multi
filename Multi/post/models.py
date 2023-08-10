@@ -11,6 +11,8 @@ class Post(models.Model):
     
     started_at = models.CharField(max_length=30)
     arrive_place = models.CharField(max_length=30)
+    
+    ending = models.BooleanField(default=False, blank = True)
 
 
     def __str__(self):  # [제목번호]제목 :: 작성자명 <-- 이와 같은 형식으로 나올 수 있도록 설정(관리자 페이지)

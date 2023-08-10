@@ -1,0 +1,14 @@
+{% include 'first/base.html' %}
+{% if request.user == person %}
+    {% with user_followers=person.followers.all %}
+        {% for list in user_list %}
+            {% if list in user_followers %}
+                {{list.username}}님 프로필</a>
+                <p>성명 : {{list.username}}</p>
+                <p>나이 : {{list.old}}</p>
+                <p>전화번호 : {{list.phone}}</p>
+                <p>거주지 : {{list.address}}</p>
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
+{% endif %}
