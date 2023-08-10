@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from .forms import RegistrationForm, CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from .models import User
 
 def register_view(request, *args, **kwargs):
     user = request.user
@@ -61,7 +62,7 @@ def login_view(request, *args, **kwargs):
     else:
         return render(request, 'accounts/login.html')
 
-@login_required
+
 def update(request, pk):
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, instance=request.user) # 이게 없으면 수정할 때마다 새로운 계정을 만든다.
@@ -101,4 +102,28 @@ def delete(request) :
     user = request.user
     user.delete()
     return redirect('/')
+
+def profile(request, pk):
+    user = get_user_model()
+    person = get_object_or_404(user, pk=pk)
+    context={
+        'person' : person
+    }
+    return render(request, 'accounts/profile.html', context)
     
+@login_required
+def follow(request, pk):  
+    User = get_user_model()
+    # 팔로우 당하는 사람
+    user = User.objects.get(pk=pk)
+    if user != request.user:
+        # 팔로우를 요청한 사람 => request.user
+        # 팔로우가 되어 있다면,
+        if user.followers.filter(pk=request.user.pk).exists():
+            # 삭제
+            user.followers.remove(request.user)
+        else:
+            # 추가
+            user.followers.add(request.user)
+        return redirect('accounts:profile', user.pk)
+    return redirect('/post/')

@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-
 urlpatterns = [
     # 게시물 수정하는 페이지 url연결
     path('', views.PostList.as_view()),

@@ -9,7 +9,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    started_at = models.DateTimeField(auto_now_add=True)
+    started_at = models.CharField(max_length=30)
     arrive_place = models.CharField(max_length=30)
 
 

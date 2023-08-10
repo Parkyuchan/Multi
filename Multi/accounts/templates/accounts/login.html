@@ -1,4 +1,14 @@
-{% include 'first/base.html' %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet" integrity="text/css">
+
+  </head>
+
+<body>
+  {% include 'first/base.html' %}
 
 {% if user.is_authenticated %}
     로그인성공!
@@ -11,3 +21,5 @@
         <input type ="submit" value="로그인">
     </form>
 {% endif %}
+</body>
+</html>

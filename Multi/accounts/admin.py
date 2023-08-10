@@ -6,7 +6,7 @@ class UserAdmin(UserAdmin):
     # 관리자 화면에 보여질 칼럼 지정
     list_display = ("username", "email", "old", "phone", "address", "volunteer")
     list_filter = ("is_staff", "is_superuser", "is_active", "groups")
-    search_fields = ("username", "email", "phone", 'volunteer')
+    search_fields = ("username", "email", "phone", "volunteer")
     ordering = ("username",)
     add_fieldsets = (
         (None, {

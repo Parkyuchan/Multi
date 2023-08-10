@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView
 from .models import Post
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import User
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from .forms import PostForm
+from django.contrib.auth import get_user_model
 
 class PostList(ListView):
     model = Post
@@ -77,3 +78,16 @@ class PostSearch(PostList):
         context['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
 
         return context
+    
+def follow(request, pk):
+    if request.user.is_authenticated:
+        user = get_object_or_404(get_user_model(), pk=pk)
+        user.checking = True
+        if user != request.user:
+            # if request.user.followings.filter(pk=user_pk).exists():
+            if user.followings.filter(pk=request.user.pk).exists():
+                user.followings.remove(request.user)
+            else:
+                user.followings.add(request.user)
+        return redirect('/post/')
+    return redirect('/accounts/login')

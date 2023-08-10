@@ -6,6 +6,16 @@
         {% bootstrap_form form %}
         <button class="btn btn-primary">수정</button>
     </form>
+    {% if request.user != user %}
+    <hr>
+    {% with user_followers=user.followers.all %}
+        {% if request.user in user_followers %}
+            <a href="{% url 'accounts:follow' user.pk %}">팔로우 취소</a>
+        {% else %}
+            <a href="{% url 'accounts:follow' user.pk %}">팔로우</a>
+        {% endif %}
+    {% endwith%}
+{% endif %}
 
     <form action="/accounts/delete/" method="POST">
         {% csrf_token %}

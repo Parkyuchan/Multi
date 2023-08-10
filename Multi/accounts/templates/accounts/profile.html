@@ -1,0 +1,14 @@
+{% include 'first/base.html' %}
+
+{{person.username}}님에게 동행 신청
+{% if request.user != person %}
+    <hr>
+    {% with user_followers=person.followers.all %}
+        {% if request.user in user_followers %}
+            이미 신청하셨습니다. 취소하시겠습니까?
+            <a href="{% url 'accounts:follow' person.pk %}">신청 취소</a>
+        {% else %}
+            <a href="{% url 'accounts:follow' person.pk %}">신청하기</a>
+        {% endif %}
+    {% endwith%}
+{% endif %}
