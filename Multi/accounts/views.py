@@ -5,7 +5,6 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from .forms import RegistrationForm, CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import User
 
 def register_view(request, *args, **kwargs):
     user = request.user
@@ -103,16 +102,6 @@ def delete(request) :
     user.delete()
     return redirect('/')
 
-def profile(request, pk):
-    user_list = get_user_model().objects.all()
-    user = get_user_model()
-    person = get_object_or_404(user, pk=pk)
-    context={
-        'user_list' : user_list,
-        'person' : person
-    }
-    return render(request, 'accounts/profile.html', context)
-
 def profile_register(request, pk):
     user_list = get_user_model().objects.all()
     user = get_user_model()
@@ -123,19 +112,3 @@ def profile_register(request, pk):
     }
     return render(request, 'accounts/profile_register.html', context)
     
-@login_required
-def follow(request, pk):  
-    User = get_user_model()
-    # 팔로우 당하는 사람
-    user = User.objects.get(pk=pk)
-    if user != request.user:
-        # 팔로우를 요청한 사람 => request.user
-        # 팔로우가 되어 있다면,
-        if user.followers.filter(pk=request.user.pk).exists():
-            # 삭제
-            user.followers.remove(request.user)
-        else:
-            # 추가
-            user.followers.add(request.user)
-        return redirect('accounts:profile', user.pk)
-    return redirect('/post/')

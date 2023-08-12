@@ -3,13 +3,23 @@
     <!-- Title -->
     <h1 class="mt-4">{{post.title}}</h1>
 
-    {% if user.is_authenticated and user.pk == post.user.pk %}
+    {% if user.is_authenticated and user.pk == post.user.pk and post.ending == False %}
     <!--사용자가 로그인을 했고 게시물 작성자와 같으면 Edit Post버튼이 보이도록 설정-->
     <a class="btn btn-info btn-sm" href="/post/{{ post.pk }}/update_post/" role="button" style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i
             class="fas fa-pen"></i> 수정</a>
 
     <a class="btn btn-info btn-sm" href="/post/{{ post.pk }}/delete_post/" role="button" style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i
             class="fas fa-pen"></i> 삭제</a>
+    
+    <a class="btn btn-info btn-sm" href="/post/{{post.pk}}/end/" role="button" style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i
+            class="fas fa-pen"></i> 마감하기
+            {% with user_followers=post.user.followers.all %}
+            {% for follower in user_followers %}
+                <a action="{% url 'accounts:follow' post.user.pk %}"></a>
+                    {% endfor %}
+                    {% endwith %}
+                </a>
+    <a href="{% url 'accounts:profile_register' post.user.pk %}">신청자 보러 가기</a>        
     {% else %}
         
     {% endif %}
@@ -17,11 +27,22 @@
     <!--Post Content-->
     <div class="card-body">
         <small>작성일 : {{post.created_at | date:'y.m.d'}}</small>
-        <p>출발 날짜 : {{post.started_at}}</p>
+        <p>출발 날짜 : {{post.started_at | date:'h.m.s'}}</p>
         <p>목적지 : {{post.arrive_place}}</p>
         <p>내용 : {{post.content}}</p>
         <p>작성자 : {{post.user.username}}</p>
     </div>
     <hr>
-    <a href="{% url 'accounts:profile' post.user.pk %}">{{ post.user.username }}님 동행 신청하기</a>
+    {% if post.ending == True %}
+        마감되었습니다.
+    {% elif post.user != request.user %}
+        {% with user_followers=post.followings.all %}
+        {% if request.user in user_followers %}
+            <p>이미 신청하셨습니다. 취소하시겠습니까?<p>
+            <a href="{% url 'post:follow' post.pk post.user.pk %}">{{ post.user.username }}님 동행 취소하기</a>
+        {% else %}
+            <a href="{% url 'post:follow' post.pk post.user.pk %}">{{ post.user.username }}님 동행 신청하기</a>
+        {% endif %}
+        {% endwith %}
+    {% endif %}
 </div>

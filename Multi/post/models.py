@@ -1,18 +1,18 @@
 from django.db import models
-from accounts.models import User
-
+import accounts
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=30)  # title은 문자열로 최대 길이 30(게시물 제목)
     content = models.TextField()  # content는 텍스트형(게시물 내용)
-    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey("accounts.User", null=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    started_at = models.CharField(max_length=30)
+    started_at = models.TimeField(blank=True)
     arrive_place = models.CharField(max_length=30)
     
     ending = models.BooleanField(default=False, blank = True)
+    followings = models.ManyToManyField("accounts.User", blank=True, symmetrical=False,related_name='followers')
 
 
     def __str__(self):  # [제목번호]제목 :: 작성자명 <-- 이와 같은 형식으로 나올 수 있도록 설정(관리자 페이지)
@@ -25,3 +25,8 @@ class Post(models.Model):
 
     class Meta:
         verbose_name_plural = '게시물'  # 관리자 페이지에서 카테고리 목록 이름을 categorys에서 categories로 변경
+        
+        
+class Post_follow(models.Model):
+    user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)

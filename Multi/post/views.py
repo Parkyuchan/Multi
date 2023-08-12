@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Post
-from .models import User
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from .forms import PostForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+
 
 class PostList(ListView):
     model = Post
@@ -13,6 +14,7 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     model = Post
+    
 
 def createPost(request):
     if request.method == 'POST':
@@ -79,15 +81,41 @@ class PostSearch(PostList):
 
         return context
     
-def follow(request, pk):
-    if request.user.is_authenticated:
-        user = get_object_or_404(get_user_model(), pk=pk)
-        user.checking = True
-        if user != request.user:
-            # if request.user.followings.filter(pk=user_pk).exists():
-            if user.followings.filter(pk=request.user.pk).exists():
-                user.followings.remove(request.user)
-            else:
-                user.followings.add(request.user)
+@login_required
+def follow(request, post_pk, user_pk):  
+    post = Post.objects.get(id=post_pk)
+    User = get_user_model()
+    user = get_object_or_404(User, pk=user_pk)
+    # 팔로우 당하는 사람
+    
+    if user != request.user:
+        # 팔로우를 요청한 사람 => request.user
+        # 팔로우가 되어 있다면,
+        if post.followings.filter(pk=request.user.pk).exists():
+            # 삭제
+            post.followings.remove(request.user)
+        else:
+            # 추가
+            post.followings.add(request.user)
         return redirect('/post/')
-    return redirect('/accounts/login')
+    return redirect('/post/')
+
+
+def ending(request, pk):
+    post = Post.objects.get(id=pk)
+    post.ending = True
+    post.save()
+    User = get_user_model()
+    # 팔로우 당하는 사람
+    user = User.objects.get(pk=pk)
+    if user != request.user:
+        # 팔로우를 요청한 사람 => request.user
+        # 팔로우가 되어 있다면,
+        if user.followers.filter(pk=request.user.pk).exists():
+            # 삭제
+            user.followers.remove(request.user)
+        else:
+            # 추가
+            user.followers.add(request.user)
+        return render(request, 'post/post_detail.html')
+    return redirect('/post')
