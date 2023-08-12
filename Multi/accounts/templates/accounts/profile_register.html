@@ -1,6 +1,6 @@
 {% include 'first/base.html' %}
 {% if request.user == person %}
-    {% with user_followers=person.followers.all %}
+    {% with user_followers=post.followings.all %}
         {% for list in user_followers %}
                 <hr>
                 {{list.username}}님 프로필</a>
@@ -8,7 +8,6 @@
                 <p>나이 : {{list.old}}</p>
                 <p>전화번호 : {{list.phone}}</p>
                 <p>거주지 : {{list.address}}</p>
-                {{user_followers.all.pk}}
                 <hr>
         {% endfor %}
     {% endwith %}

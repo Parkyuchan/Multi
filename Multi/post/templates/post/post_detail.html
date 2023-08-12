@@ -19,7 +19,7 @@
                     {% endfor %}
                     {% endwith %}
                 </a>
-    <a href="{% url 'accounts:profile_register' post.user.pk %}">신청자 보러 가기</a>        
+    <a href="{% url 'accounts:profile_register' post.pk post.user.pk %}">신청자 보러 가기</a>        
     {% else %}
         
     {% endif %}

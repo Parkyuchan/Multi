@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from .forms import RegistrationForm, CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from post.models import Post
 
 def register_view(request, *args, **kwargs):
     user = request.user
@@ -102,13 +103,15 @@ def delete(request) :
     user.delete()
     return redirect('/')
 
-def profile_register(request, pk):
+def profile_register(request, post_pk, user_pk):
     user_list = get_user_model().objects.all()
     user = get_user_model()
-    person = get_object_or_404(user, pk=pk)
+    person = get_object_or_404(user, pk=user_pk)
+    post = Post.objects.get(id=post_pk)
     context={
         'user_list' : user_list,
-        'person' : person
+        'person' : person,
+        'post' : post
     }
     return render(request, 'accounts/profile_register.html', context)
     

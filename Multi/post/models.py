@@ -12,7 +12,7 @@ class Post(models.Model):
     arrive_place = models.CharField(max_length=30)
     
     ending = models.BooleanField(default=False, blank = True)
-    followings = models.ManyToManyField("accounts.User", blank=True, symmetrical=False,related_name='followers')
+    followings = models.ManyToManyField("accounts.User", blank=True, symmetrical=False, related_name='followers')
 
 
     def __str__(self):  # [제목번호]제목 :: 작성자명 <-- 이와 같은 형식으로 나올 수 있도록 설정(관리자 페이지)
@@ -26,7 +26,3 @@ class Post(models.Model):
     class Meta:
         verbose_name_plural = '게시물'  # 관리자 페이지에서 카테고리 목록 이름을 categorys에서 categories로 변경
         
-        
-class Post_follow(models.Model):
-    user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
