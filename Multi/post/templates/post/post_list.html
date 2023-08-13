@@ -1,5 +1,5 @@
 {% include "first/base.html" %}
-
+{% include 'post/search_post.html' %}
 {% if user.is_authenticated and user.volunteer == False%}
     <a class="btn btn-info btn-sm float-right" href="/post/create_post/" role="button" 
     style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i class="fas fa-pen"></i>글쓰기</a>

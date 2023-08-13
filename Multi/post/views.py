@@ -5,7 +5,7 @@ from django.core.exceptions import PermissionDenied
 from .forms import PostForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 
 class PostList(ListView):
     model = Post
@@ -39,6 +39,23 @@ def createPost(request):
             'post': post
         }
         return render(request, 'post/post_form.html', context)
+
+class PostSearch(PostList):
+    paginate_by = None
+
+    def get_queryset(self):
+        q = self.kwargs['q']
+        post_list = Post.objects.filter(
+            Q(title__contains=q)
+        ).distinct()
+        return post_list
+
+    def get_context_data(self, **kwargs):
+        context = super(PostSearch, self).get_context_data()
+        q = self.kwargs['q']
+        context['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
+
+        return context
     
 def postUpdate(request, pk):
     post = Post.objects.get(id=pk)

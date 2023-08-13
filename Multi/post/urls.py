@@ -12,4 +12,5 @@ urlpatterns = [
     path('<int:post_pk>/<int:user_pk>/follow/', views.follow, name='follow'),
     path('<int:pk>/end/', views.ending, name='ending'),
     path('<int:pk>/mypost/', views.mypost, name='mypost'),
+    path('search/<str:q>/', views.PostSearch.as_view()),
 ]
