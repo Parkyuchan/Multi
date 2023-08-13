@@ -1,0 +1,2627 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>(보건 동행)전국 이동센터 정보</title>
+    <style>
+    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.2;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 15px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow: hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 9px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    .info .link {color: #d1250b;}
+
+</style>
+</head>
+<body>
+<p style="margin-top:-12px">
+</p>
+<div id="map" style="width:100%;height:800px;"></div>
+
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=2a6fa26b5611310b642937947b2f84aa"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도의 중심좌표
+    mapOption = { 
+        center: new kakao.maps.LatLng(33.451475, 126.570528), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    }; 
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+
+// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+if (navigator.geolocation) {
+    
+    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+    navigator.geolocation.getCurrentPosition(function(position) {
+        
+        var lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+        
+        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            message = '<div style="padding:5px;">현재 위치입니다.</div>'; // 인포윈도우에 표시될 내용입니다
+        
+        // 마커와 인포윈도우를 표시합니다
+        displayMarker(locPosition, message);
+            
+      });
+    
+} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+    
+    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
+        message = '현재 위치를 불러올 수 없습니다.'
+        
+    displayMarker(locPosition, message);
+}
+
+// 지도에 마커와 인포윈도우를 표시하는 함수입니다
+function displayMarker(locPosition, message) {
+
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({  
+        map: map, 
+        position: locPosition
+    }); 
+    
+    var iwContent = message, // 인포윈도우에 표시할 내용
+        iwRemoveable = true;
+
+    // 인포윈도우를 생성합니다
+    var infowindow = new kakao.maps.InfoWindow({
+        content : iwContent,
+        removable : iwRemoveable
+    });
+    
+    // 인포윈도우를 마커위에 표시합니다 
+    infowindow.open(map, marker);
+    
+    // 지도 중심좌표를 접속위치로 변경합니다
+    map.setCenter(locPosition);      
+}
+
+
+// 센터명, 위치 정보
+var positions = [
+{
+	title: '<div style="padding:5px;"> 사)충남지체장애인협회 당진시지회</div>',
+	lating: new kakao.maps.LatLng( 36.88724061 , 126.6247065 )
+},
+
+{
+	title: '<div style="padding:5px;"> 완도군 개인택시 지부(위탁)</div>',
+	lating: new kakao.maps.LatLng( 34.318879 , 126.7445341 )
+},
+
+{
+	title: '<div style="padding:5px;"> 금산군 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.11216659 , 127.4815168 )
+},
+
+{
+	title: '<div style="padding:5px;"> 진안군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.790572 , 127.4251603464 )
+},
+
+{
+	title: '<div style="padding:5px;"> 사단법인한국시각장애인연합회영월지회</div>',
+	lating: new kakao.maps.LatLng( 37.185347 , 128.467917 )
+},
+
+{
+	title: '<div style="padding:5px;"> 예천군장애인이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.649653 , 128.441283 )
+},
+
+{
+	title: '<div style="padding:5px;"> 교통약자 이동지원 센터 행복콜</div>',
+	lating: new kakao.maps.LatLng( 36.5871278 , 128.1940527 )
+},
+
+{
+	title: '<div style="padding:5px;"> 함안군교통약자콜택시(경남지체장애인연합회 함안군지회)</div>',
+	lating: new kakao.maps.LatLng( 35.27505859 , 128.4105797 )
+},
+
+{
+	title: '<div style="padding:5px;"> 의정부시시설관리공단 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.75793498 , 127.0316068 )
+},
+
+{
+	title: '<div style="padding:5px;"> 광주광역시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.21828687 , 126.8926489 )
+},
+
+{
+	title: '<div style="padding:5px;"> 시흥시 교통약자이동지원센터(희망네바퀴)</div>',
+	lating: new kakao.maps.LatLng( 37.36300325 , 126.8065192 )
+},
+
+{
+	title: '<div style="padding:5px;"> 김포시 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.65330173 , 126.6835109 )
+},
+
+{
+	title: '<div style="padding:5px;"> 전남지체장애인협회담양군지회</div>',
+	lating: new kakao.maps.LatLng( 35.31476994 , 126.9766124 )
+},
+
+{
+	title: '<div style="padding:5px;"> 용인시 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.24963097 , 127.165158 )
+},
+
+{
+	title: '<div style="padding:5px;"> 옥천군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.30692008 , 127.5642376 )
+},
+
+{
+	title: '<div style="padding:5px;"> 음성군 특별교통수단 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.99372848 , 127.6042954 )
+},
+
+{
+	title: '<div style="padding:5px;"> 제천시 특별교통수단 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.171529 , 128.242342 )
+},
+
+{
+	title: '<div style="padding:5px;"> 사)강원도시각장애인연합회 철원군지회</div>',
+	lating: new kakao.maps.LatLng( 38.20394617 , 127.2201917 )
+},
+
+{
+	title: '<div style="padding:5px;"> 의왕시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.30274385 , 126.959074 )
+},
+
+{
+	title: '<div style="padding:5px;"> 대전교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.3173370007 , 127.4280138234 )
+},
+
+{
+	title: '<div style="padding:5px;"> 영동군 지체장애인협회</div>',
+	lating: new kakao.maps.LatLng( 36.1691321299 , 127.7758461604 )
+},
+
+{
+	title: '<div style="padding:5px;"> 영동군 생활이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.1691321299 , 127.7758461604 )
+},
+
+{
+	title: '<div style="padding:5px;"> 전남지체장애인협회 화순군지회</div>',
+	lating: new kakao.maps.LatLng( 35.0677473 , 126.991519 )
+},
+
+{
+	title: '<div style="padding:5px;"> (사)한국시각장애인연합회 양양군지회</div>',
+	lating: new kakao.maps.LatLng( 38.07784423 , 128.6274852 )
+},
+
+{
+	title: '<div style="padding:5px;"> (사)강원도지체장애인협회 양양군지회</div>',
+	lating: new kakao.maps.LatLng( 38.07784423 , 128.6274852 )
+},
+
+{
+	title: '<div style="padding:5px;"> 보은군장애인생활이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.4886825 , 127.7234966 )
+},
+
+{
+	title: '<div style="padding:5px;"> 무주군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.00671051 , 127.662714 )
+},
+
+{
+	title: '<div style="padding:5px;"> 전남지체장애인협회 영암군지회</div>',
+	lating: new kakao.maps.LatLng( 34.79496124 , 126.6969605 )
+},
+
+{
+	title: '<div style="padding:5px;"> 울릉택시협동조합</div>',
+	lating: new kakao.maps.LatLng( 37.49693638 , 130.8971107 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경상북도특별교통수단상주시부름콜센터</div>',
+	lating: new kakao.maps.LatLng( 36.39972419 , 128.1513513 )
+},
+
+{
+	title: '<div style="padding:5px;"> 양산시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.35051203 , 129.0350935 )
+},
+
+{
+	title: '<div style="padding:5px;"> 수원시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.23777723 , 127.018347 )
+},
+
+{
+	title: '<div style="padding:5px;"> 사천시 특별교통수단</div>',
+	lating: new kakao.maps.LatLng( 34.93131695 , 128.0820506 )
+},
+
+{
+	title: '<div style="padding:5px;"> 사천시 특별교통수단</div>',
+	lating: new kakao.maps.LatLng( 35.08619443 , 128.1000627 )
+},
+
+{
+	title: '<div style="padding:5px;"> 가평군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.82631492 , 127.5078619 )
+},
+
+{
+	title: '<div style="padding:5px;"> 양평군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.49776189 , 127.4871469 )
+},
+
+{
+	title: '<div style="padding:5px;"> 정읍시 행복콜택시</div>',
+	lating: new kakao.maps.LatLng( 35.58500364 , 126.8606847 )
+},
+
+{
+	title: '<div style="padding:5px;"> 남양주시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.65539978 , 127.1792621 )
+},
+
+{
+	title: '<div style="padding:5px;"> 김천시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.13177813 , 128.137665 )
+},
+
+{
+	title: '<div style="padding:5px;"> 파주시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.7961277 , 126.7901986 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강원도교통약자광역이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.88007265 , 127.7279085 )
+},
+
+{
+	title: '<div style="padding:5px;"> 교통편의관리소</div>',
+	lating: new kakao.maps.LatLng( 35.234007131 , 128.6647353695 )
+},
+
+{
+	title: '<div style="padding:5px;"> 천안시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.7979991 , 127.1431034 )
+},
+
+{
+	title: '<div style="padding:5px;"> 공주시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.49366156 , 127.1356957 )
+},
+
+{
+	title: '<div style="padding:5px;"> 보령시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.34544473 , 126.6020154 )
+},
+
+{
+	title: '<div style="padding:5px;"> 아산시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.78898932 , 126.9978278 )
+},
+
+{
+	title: '<div style="padding:5px;"> 서산시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.74512191 , 126.4852735 )
+},
+
+{
+	title: '<div style="padding:5px;"> 논산시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.20032028 , 127.0782185 )
+},
+
+{
+	title: '<div style="padding:5px;"> 순창군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.37765073 , 127.1468543 )
+},
+
+{
+	title: '<div style="padding:5px;"> 당진시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.88724412 , 126.6247053 )
+},
+
+{
+	title: '<div style="padding:5px;"> 금산군 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.10193265 , 127.5067571 )
+},
+
+{
+	title: '<div style="padding:5px;"> 부여군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.27331322 , 126.8712187 )
+},
+
+{
+	title: '<div style="padding:5px;"> 서천군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.07485734 , 126.6914297 )
+},
+
+{
+	title: '<div style="padding:5px;"> 청양군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.44939025 , 126.786522 )
+},
+
+{
+	title: '<div style="padding:5px;"> 홍성군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.59770889 , 126.6558164 )
+},
+
+{
+	title: '<div style="padding:5px;"> 예산군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.69471087 , 126.8353696 )
+},
+
+{
+	title: '<div style="padding:5px;"> 태안군 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.74591186 , 126.3018915 )
+},
+
+{
+	title: '<div style="padding:5px;"> (사)전남장애인총연합회 강진군지부</div>',
+	lating: new kakao.maps.LatLng( 34.64034375 , 126.7741157 )
+},
+
+{
+	title: '<div style="padding:5px;"> 하남시교통약자이동지원센터-나눔콜</div>',
+	lating: new kakao.maps.LatLng( 37.538986 , 127.230067 )
+},
+
+{
+	title: '<div style="padding:5px;"> 해남군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.57095368 , 126.605043 )
+},
+
+{
+	title: '<div style="padding:5px;"> 세종누리콜</div>',
+	lating: new kakao.maps.LatLng( 36.5941098997 , 127.2841210513 )
+},
+
+{
+	title: '<div style="padding:5px;"> 부산광역시 교통약자이동지원센터(부산시설공단)</div>',
+	lating: new kakao.maps.LatLng( 35.19784977 , 129.0800058 )
+},
+
+{
+	title: '<div style="padding:5px;"> 보령시도로교통과</div>',
+	lating: new kakao.maps.LatLng( 36.34508656 , 126.6010488 )
+},
+
+{
+	title: '<div style="padding:5px;"> 화성시 교통약자이동지원센터(화성나래)</div>',
+	lating: new kakao.maps.LatLng( 37.13752921 , 126.9242565 )
+},
+
+{
+	title: '<div style="padding:5px;"> 동해시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.49705665 , 129.1266705 )
+},
+
+{
+	title: '<div style="padding:5px;"> 영천시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.957177 , 128.932791 )
+},
+
+{
+	title: '<div style="padding:5px;"> 칠곡군 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.0066688835 , 128.4082377364 )
+},
+
+{
+	title: '<div style="padding:5px;"> 의성군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.3594974 , 128.6801537 )
+},
+
+{
+	title: '<div style="padding:5px;"> 이천시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.27462146 , 127.4442088 )
+},
+
+{
+	title: '<div style="padding:5px;"> 한국교통장애인협회 청도군지회</div>',
+	lating: new kakao.maps.LatLng( 35.67096686 , 128.7394066 )
+},
+
+{
+	title: '<div style="padding:5px;"> 목포시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.80554093 , 126.4042502 )
+},
+
+{
+	title: '<div style="padding:5px;"> 진주시교통약자특별교통수단(일진교통)</div>',
+	lating: new kakao.maps.LatLng( 35.1642235 , 128.0651561 )
+},
+
+{
+	title: '<div style="padding:5px;"> 진주시교통약자특별교통수단(동진택시)</div>',
+	lating: new kakao.maps.LatLng( 35.18727147 , 128.1119228 )
+},
+
+{
+	title: '<div style="padding:5px;"> 착한수레</div>',
+	lating: new kakao.maps.LatLng( 37.40629131 , 126.9487366 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경주시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.8444091402 , 129.201709 )
+},
+
+{
+	title: '<div style="padding:5px;"> 안산시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.31947602 , 126.8164939 )
+},
+
+{
+	title: '<div style="padding:5px;"> (사)한국지체장애인협회 부여군지회</div>',
+	lating: new kakao.maps.LatLng( 36.27331214 , 126.8712172 )
+},
+
+{
+	title: '<div style="padding:5px;"> 충주시특별교통수단이동지원센터(출근)</div>',
+	lating: new kakao.maps.LatLng( 37.00169614 , 127.9180329 )
+},
+
+{
+	title: '<div style="padding:5px;"> 충주시특별교통수단이동지원센터(퇴근)</div>',
+	lating: new kakao.maps.LatLng( 37.00169614 , 127.9180329 )
+},
+
+{
+	title: '<div style="padding:5px;"> 구리시 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.61313887 , 127.1409183 )
+},
+
+{
+	title: '<div style="padding:5px;"> 장흥군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.68686476 , 126.9096495 )
+},
+
+{
+	title: '<div style="padding:5px;"> 고흥군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.613793569 , 127.2879524306 )
+},
+
+{
+	title: '<div style="padding:5px;"> 봄내콜이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.914628 , 127.748277 )
+},
+
+{
+	title: '<div style="padding:5px;"> 구례군 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.2166161 , 127.4668741 )
+},
+
+{
+	title: '<div style="padding:5px;"> 논산시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.2003202 , 127.078218 )
+},
+
+{
+	title: '<div style="padding:5px;"> 여주시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.29737726 , 127.6358905 )
+},
+
+{
+	title: '<div style="padding:5px;"> 성남시내버스(주) 택시사업부</div>',
+	lating: new kakao.maps.LatLng( 37.44407384 , 127.1785358 )
+},
+
+{
+	title: '<div style="padding:5px;"> 광주희망콜</div>',
+	lating: new kakao.maps.LatLng( 37.40998092 , 127.2653231 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경북광역이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.12375 , 128.332153 )
+},
+
+{
+	title: '<div style="padding:5px;"> (사)지체장애인협회 의령군지회</div>',
+	lating: new kakao.maps.LatLng( 35.315489 , 128.255951 )
+},
+
+{
+	title: '<div style="padding:5px;"> 신안군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.7844599549 , 126.3849637813 )
+},
+
+{
+	title: '<div style="padding:5px;"> 광명시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.45727525 , 126.8723345 )
+},
+
+{
+	title: '<div style="padding:5px;"> 고양시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.64247907 , 126.7953758 )
+},
+
+{
+	title: '<div style="padding:5px;"> 장수군 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.65392867 , 127.517936 )
+},
+
+{
+	title: '<div style="padding:5px;"> 영광군 특별교통수단(장애인콜택시)</div>',
+	lating: new kakao.maps.LatLng( 35.26952915 , 126.5090179 )
+},
+
+{
+	title: '<div style="padding:5px;"> 여수시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.7770136 , 127.6554801 )
+},
+
+{
+	title: '<div style="padding:5px;"> 한국교통장애인협회 영덕군지회</div>',
+	lating: new kakao.maps.LatLng( 36.4104850029 , 129.367214 )
+},
+
+{
+	title: '<div style="padding:5px;"> 청주시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.63785612 , 127.4723448 )
+},
+
+{
+	title: '<div style="padding:5px;"> 장애인생활이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.10044872 , 127.4985088 )
+},
+
+{
+	title: '<div style="padding:5px;"> 남원시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.40341851 , 127.377408 )
+},
+
+{
+	title: '<div style="padding:5px;"> 한국교통장애인협회영주시지회</div>',
+	lating: new kakao.maps.LatLng( 36.8270932 , 128.6235929 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경상남도특별교통수단콜센터</div>',
+	lating: new kakao.maps.LatLng( 35.2396723 , 128.6475949 )
+},
+
+{
+	title: '<div style="padding:5px;"> 양구군 장애인생활이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 38.1087485207 , 127.9864048749 )
+},
+
+{
+	title: '<div style="padding:5px;"> 인천 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.4365452 , 126.6864606 )
+},
+
+{
+	title: '<div style="padding:5px;"> 군산시 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.97302347 , 126.684383 )
+},
+
+{
+	title: '<div style="padding:5px;"> 창원시설공단 교통편의관리소</div>',
+	lating: new kakao.maps.LatLng( 35.234007 , 128.664735 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강원도지체장애인협회 고성군지회</div>',
+	lating: new kakao.maps.LatLng( 38.37818193 , 128.4988401 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강릉시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.76923243 , 128.9298548 )
+},
+
+{
+	title: '<div style="padding:5px;"> 예산군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.6947127553 , 126.8353690422 )
+},
+
+{
+	title: '<div style="padding:5px;"> 임실군장애인연합회 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.61026512 , 127.283295 )
+},
+
+{
+	title: '<div style="padding:5px;"> 고창군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.43762073 , 126.7129638 )
+},
+
+{
+	title: '<div style="padding:5px;"> 사)한국지체장애인협회 함평군지회</div>',
+	lating: new kakao.maps.LatLng( 35.07582913 , 126.512894 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강원도 교통약자 광역이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.8800729197 , 127.7279078203 )
+},
+
+{
+	title: '<div style="padding:5px;"> 대구시달서구장애인이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.83004237 , 128.528337 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경북지체장애인협회 봉화군지회</div>',
+	lating: new kakao.maps.LatLng( 36.89365762 , 128.737331 )
+},
+
+{
+	title: '<div style="padding:5px;"> 진천군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.8610976 , 127.439492 )
+},
+
+{
+	title: '<div style="padding:5px;"> 장성군교통약자이동편의증진센터(전남지체장애인협회 장성군지회)</div>',
+	lating: new kakao.maps.LatLng( 35.30199904 , 126.7813166 )
+},
+
+{
+	title: '<div style="padding:5px;"> 연천군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 38.02902948 , 127.0661008 )
+},
+
+{
+	title: '<div style="padding:5px;"> 정선군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.38230943 , 128.673439 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경남지체장애인협회합천군지회</div>',
+	lating: new kakao.maps.LatLng( 35.56841416 , 128.1569121 )
+},
+
+{
+	title: '<div style="padding:5px;"> 산청군 교통약자 콜택시</div>',
+	lating: new kakao.maps.LatLng( 35.413607 , 127.886574 )
+},
+
+{
+	title: '<div style="padding:5px;"> 거창군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.68667584 , 127.9095332 )
+},
+
+{
+	title: '<div style="padding:5px;"> (사)강원도지체장애인협회 평창군지회</div>',
+	lating: new kakao.maps.LatLng( 37.65292724 , 128.5711924 )
+},
+
+{
+	title: '<div style="padding:5px;"> 청송군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.43511571 , 129.0614924 )
+},
+
+{
+	title: '<div style="padding:5px;"> 교통약자 특별교통수단</div>',
+	lating: new kakao.maps.LatLng( 34.84996554 , 128.4293738 )
+},
+
+{
+	title: '<div style="padding:5px;"> 이지콜센터</div>',
+	lating: new kakao.maps.LatLng( 35.84075454 , 127.127127 )
+},
+
+{
+	title: '<div style="padding:5px;"> 나주시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.98798165 , 126.7286244 )
+},
+
+{
+	title: '<div style="padding:5px;"> 청양군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.44939025 , 126.786522 )
+},
+
+{
+	title: '<div style="padding:5px;"> (사)한국교통장애인협회 울진군지회</div>',
+	lating: new kakao.maps.LatLng( 36.99137861 , 129.405693 )
+},
+
+{
+	title: '<div style="padding:5px;"> 익산시장애인콜택시콜센터</div>',
+	lating: new kakao.maps.LatLng( 35.919194 , 126.9188748 )
+},
+
+{
+	title: '<div style="padding:5px;"> 평택시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.0386047913 , 127.1006932 )
+},
+
+{
+	title: '<div style="padding:5px;"> 광양시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.9754338 , 127.5782601 )
+},
+
+{
+	title: '<div style="padding:5px;"> 용인시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.2496309738 , 127.16515804 )
+},
+
+{
+	title: '<div style="padding:5px;"> 전라남도 지체장애인협회 곡성군지회</div>',
+	lating: new kakao.maps.LatLng( 35.28043576 , 127.2962815 )
+},
+
+{
+	title: '<div style="padding:5px;"> 남해군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.84954976 , 127.9088757 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경기도안성시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.01319895 , 127.3278403 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강남세움복지관</div>',
+	lating: new kakao.maps.LatLng( 37.48698084 , 127.106927 )
+},
+
+{
+	title: '<div style="padding:5px;"> 부천시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.51275697 , 126.7639108 )
+},
+
+{
+	title: '<div style="padding:5px;"> 의왕시 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.30274385 , 126.959074 )
+},
+
+{
+	title: '<div style="padding:5px;"> 양주시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.81249951 , 126.9723084 )
+},
+
+{
+	title: '<div style="padding:5px;"> 무안군교통약지이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.99186126 , 126.478132 )
+},
+
+{
+	title: '<div style="padding:5px;"> 영양군 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.66192436 , 129.1186857 )
+},
+
+{
+	title: '<div style="padding:5px;"> 속초시 사회복지협의회 특별교통수단 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 38.2015051885 , 128.5894937959 )
+},
+
+{
+	title: '<div style="padding:5px;"> 경북광역이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.81721215 , 128.7682761 )
+},
+
+{
+	title: '<div style="padding:5px;"> 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 35.7233599 , 126.7317745 )
+},
+
+{
+	title: '<div style="padding:5px;"> 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.89623177 , 127.211078 )
+},
+
+{
+	title: '<div style="padding:5px;"> 제주특별자치도 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 33.47976965 , 126.4736511 )
+},
+
+{
+	title: '<div style="padding:5px;"> 오산시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.156843 , 127.0726163 )
+},
+
+{
+	title: '<div style="padding:5px;"> 태안군 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.74591186 , 126.3018915 )
+},
+
+{
+	title: '<div style="padding:5px;"> 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 34.96091348 , 127.4897497 )
+},
+
+{
+	title: '<div style="padding:5px;"> 정선군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.38230943 , 128.673439 )
+},
+
+{
+	title: '<div style="padding:5px;"> 동두천시 교통약자(특별교통수단) 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.9008389589 , 127.0704968445 )
+},
+
+{
+	title: '<div style="padding:5px;"> 충청북도지체장애인협회증평군지회</div>',
+	lating: new kakao.maps.LatLng( 36.78404788 , 127.5848022 )
+},
+
+{
+	title: '<div style="padding:5px;"> 서산시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.77801054 , 126.4554934 )
+},
+
+{
+	title: '<div style="padding:5px;"> 홍성군 특별교통수단 및 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.59770889 , 126.6558164 )
+},
+
+{
+	title: '<div style="padding:5px;"> 단양군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.9874170531 , 128.3650489202 )
+},
+
+{
+	title: '<div style="padding:5px;"> 단양군장애인생활이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.98530043 , 128.3686533 )
+},
+
+{
+	title: '<div style="padding:5px;"> 단양군장애인단체연합회</div>',
+	lating: new kakao.maps.LatLng( 36.98530043 , 128.3686533 )
+},
+
+{
+	title: '<div style="padding:5px;"> 사단법인한국시각장애인연합회영월지회</div>',
+	lating: new kakao.maps.LatLng( 37.185347 , 128.467917 )
+},
+
+{
+	title: '<div style="padding:5px;"> 대광택시㈜</div>',
+	lating: new kakao.maps.LatLng( 35.47395045 , 128.7540292 )
+},
+
+{
+	title: '<div style="padding:5px;"> 서천군 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.07484589 , 126.6914382 )
+},
+
+{
+	title: '<div style="padding:5px;"> 천안시 교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.809959 , 127.155963 )
+},
+
+{
+	title: '<div style="padding:5px;"> 괴산군 교통약자 이동지원센터(장애인협회)</div>',
+	lating: new kakao.maps.LatLng( 36.80617067 , 127.7915432 )
+},
+
+{
+	title: '<div style="padding:5px;"> 괴산군 교통약자 이동지원센터(모범운전자회)</div>',
+	lating: new kakao.maps.LatLng( 36.80574942 , 127.8005846 )
+},
+
+{
+	title: '<div style="padding:5px;"> 김해교통약자콜택시</div>',
+	lating: new kakao.maps.LatLng( 35.22752268 , 128.900987 )
+},
+
+{
+	title: '<div style="padding:5px;"> 포항시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 36.008952 , 129.363876 )
+},
+
+{
+	title: '<div style="padding:5px;"> 전라남도지체장애인협회 보성군지회</div>',
+	lating: new kakao.maps.LatLng( 34.77417491 , 127.0865911 )
+},
+
+{
+	title: '<div style="padding:5px;"> 홍천군교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.69233941 , 127.8920355 )
+},
+
+{
+	title: '<div style="padding:5px;"> 과천시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.4281927195 , 126.9891524184 )
+},
+
+{
+	title: '<div style="padding:5px;"> 군포시 교통약자 이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.34847646 , 126.9503025 )
+},
+
+{
+	title: '<div style="padding:5px;"> 장애인콜택시</div>',
+	lating: new kakao.maps.LatLng( 35.93733144 , 127.1620975 )
+},
+
+{
+	title: '<div style="padding:5px;"> 양구군 장애인생활이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 38.1087485207 , 127.9864048749 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강릉시교통약자이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.76923243 , 128.9298548 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강원도 교통약자 광역이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.8800729197 , 127.7279078203 )
+},
+
+{
+	title: '<div style="padding:5px;"> 강원도교통약자광역이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.88007265 , 127.7279085 )
+},
+
+{
+	title: '<div style="padding:5px;"> 봄내콜이동지원센터</div>',
+	lating: new kakao.maps.LatLng( 37.914628 , 127.748277 )
+}
+];
+
+
+
+
+
+// 많은 정보,,,;
+    var contents = [
+    {
+name: ' 사)충남지체장애인협회 당진시지회 ',
+address: ' <div class="ellipsis"> 충청남도 당진시 백암1길 61 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 17:00 </div> ',
+url: ' <div><a href= " http://corona19.dangjin.go.kr/ " target="_blank" class="link">홈페이지 : http://corona19.dangjin.go.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 사)충남지체장애인협회 당진시지회 , 36.88724061 , 126.6247065 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 완도군 개인택시 지부(위탁) ',
+address: ' <div class="ellipsis"> 전라남도 완도군 완도읍 개포로130번길 15 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 000-1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 23:00  주말: 08:00 ~ 23:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 23:00  주말: 08:00 ~ 23:00 </div> ',
+url: ' <div><a href= " 전남광역콜 앱 " target="_blank" class="link">홈페이지 : 전남광역콜 앱 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 완도군 개인택시 지부(위탁) , 34.318879 , 126.7445341 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 금산군 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 금산군 금산읍 사직로 173 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 금산군 교통약자 이동지원센터 , 36.11216659 , 127.4815168 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 진안군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 진안군 진안읍 관산2길 11 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-433-4222 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 17:00  주말: 09:00 ~ 17:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 20:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " https://www.0632270002.com:8443/view/index.do " target="_blank" class="link">홈페이지 : https://www.0632270002.com:8443/view/index.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 진안군교통약자이동지원센터 , 35.790572 , 127.4251603464 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 사단법인한국시각장애인연합회영월지회 ',
+address: ' <div class="ellipsis"> 강원도 영월군 영월읍 단종로 21 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " call.gwd.go.kr " target="_blank" class="link">홈페이지 : call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 사단법인한국시각장애인연합회영월지회 , 37.185347 , 128.467917 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 예천군장애인이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 예천군 예천읍 대심1길 22 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-652-7179 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 00:00 " target="_blank" class="link">홈페이지 : 00:00 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 예천군장애인이동지원센터 , 36.649653 , 128.441283 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 교통약자 이동지원 센터 행복콜 ',
+address: ' <div class="ellipsis"> 경상북도 문경시 남부4길 13(모전동, 장원하이드파크) 101호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-556-7755 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 인터넷 접수불가 " target="_blank" class="link">홈페이지 : 인터넷 접수불가 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 교통약자 이동지원 센터 행복콜 , 36.5871278 , 128.1940527 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 함안군교통약자콜택시(경남지체장애인연합회 함안군지회) ',
+address: ' <div class="ellipsis"> 경상남도 함안군 가야읍 중앙남길 70 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 23:59  주말: 09:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 23:59  주말: 09:00 ~ 17:00 </div> ',
+url: ' <div><a href= " http://www.15664488.co.kr " target="_blank" class="link">홈페이지 : http://www.15664488.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 함안군교통약자콜택시(경남지체장애인연합회 함안군지회) , 35.27505859 , 128.4105797 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 의정부시시설관리공단 이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 의정부시 체육로 90 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-826-2515 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://www.eticket.or.kr " target="_blank" class="link">홈페이지 : https://www.eticket.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 의정부시시설관리공단 이동지원센터 , 37.75793498 , 127.0316068 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 광주광역시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 광주광역시 북구 모룡대길 68, 광주광역시교통문화회관 2층 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1668-2222 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 23:00  주말: 06:00 ~ 23:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 23:00  주말: 06:00 ~ 23:00 </div> ',
+url: ' <div><a href= " http://gjtsc.com/ " target="_blank" class="link">홈페이지 : http://gjtsc.com/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 광주광역시교통약자이동지원센터 , 35.21828687 , 126.8926489 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 시흥시 교통약자이동지원센터(희망네바퀴) ',
+address: ' <div class="ellipsis"> nan </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1522-3650 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 00:00  주말: 07:00 ~ 19:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 00:00  주말: 07:00 ~ 19:00 </div> ',
+url: ' <div><a href= " https://ggsts.gg.go.kr/ " target="_blank" class="link">홈페이지 : https://ggsts.gg.go.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 시흥시 교통약자이동지원센터(희망네바퀴) , 37.36300325 , 126.8065192 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 김포시 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 김포시 김포한강1로 236 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-2008 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 김포시 교통약자 이동지원센터 , 37.65330173 , 126.6835109 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 전남지체장애인협회담양군지회 ',
+address: ' <div class="ellipsis"> 전라남도 담양군 담양읍 천변5길 63 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 061-381-3100 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://kappd-jn.or.kr " target="_blank" class="link">홈페이지 : http://kappd-jn.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 전남지체장애인협회담양군지회 , 35.31476994 , 126.9766124 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 용인시 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 용인시 처인구 동백죽전대로 61 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-526-7755 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 21:00  주말: 09:00 ~ 21:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 12:00 ~ 23:59  주말: 12:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.yonginnuri.or.kr " target="_blank" class="link">홈페이지 : www.yonginnuri.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 용인시 교통약자 이동지원센터 , 37.24963097 , 127.165158 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 옥천군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 옥천군 옥천읍 삼양로26 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-731-1026 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 20:00  주말: 08:00 ~ 20:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 20:00  주말: 08:00 ~ 20:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 옥천군 교통약자이동지원센터 , 36.30692008 , 127.5642376 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 음성군 특별교통수단 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 음성군 금왕읍 무극로370 락카6 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-883-2908 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 음성군 특별교통수단 이동지원센터 , 36.99372848 , 127.6042954 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 제천시 특별교통수단 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 제천시 내토로 73길 22 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-644-5553 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 22:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 제천시 특별교통수단 이동지원센터 , 37.171529 , 128.242342 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 사)강원도시각장애인연합회 철원군지회 ',
+address: ' <div class="ellipsis"> 강원도 철원군 동송읍 금학로 169-5 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 21:00  주말: 06:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 21:00  주말: 06:00 ~ 18:00 </div> ',
+url: ' <div><a href= " call.gwd.go.kr " target="_blank" class="link">홈페이지 : call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 사)강원도시각장애인연합회 철원군지회 , 38.20394617 , 127.2201917 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 의왕시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 의왕시 왕소나무길 29-15 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-462-8253 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 23:59  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 0 " target="_blank" class="link">홈페이지 : 0 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 의왕시 교통약자이동지원센터 , 37.30274385 , 126.959074 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 대전교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 대전광역시 중구 대종로373 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 042-612-1010 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 11:00  주말: 07:00 ~ 21:30 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 23:00  주말: 07:00 ~ 22:00 </div> ',
+url: ' <div><a href= " www.djcall.or.kr " target="_blank" class="link">홈페이지 : www.djcall.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 대전교통약자이동지원센터 , 36.3173370007 , 127.4280138234 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 영동군 지체장애인협회 ',
+address: ' <div class="ellipsis"> 충청북도 영동군 영동읍 반곡동길 8 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-744-2220 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 영동군 지체장애인협회 , 36.1691321299 , 127.7758461604 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 영동군 생활이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 영동군 영동읍 반곡동길 8 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-743-7803 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 영동군 생활이동지원센터 , 36.1691321299 , 127.7758461604 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 전남지체장애인협회 화순군지회 ',
+address: ' <div class="ellipsis"> 전라남도 화순군 화순읍 부처샘길 5-11 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 19:00  주말: 08:00 ~ 17:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 19:00  주말: 08:00 ~ 17:00 </div> ',
+url: ' <div><a href= " https://hwasun.go.kr " target="_blank" class="link">홈페이지 : https://hwasun.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 전남지체장애인협회 화순군지회 , 35.0677473 , 126.991519 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' (사)한국시각장애인연합회 양양군지회 ',
+address: ' <div class="ellipsis"> 강원도 양양군 양양읍 양양로 9-5 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ (사)한국시각장애인연합회 양양군지회 , 38.07784423 , 128.6274852 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' (사)강원도지체장애인협회 양양군지회 ',
+address: ' <div class="ellipsis"> 강원도 양양군 양양읍 양양로 9-5 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ (사)강원도지체장애인협회 양양군지회 , 38.07784423 , 128.6274852 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 보은군장애인생활이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 보은군 보은읍 뱃들로 68-38 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-543-2705 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 보은군장애인생활이동지원센터 , 36.4886825 , 127.7234966 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 무주군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 무주군 무주읍 주계로 116 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-227-0002 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 무주군교통약자이동지원센터 , 36.00671051 , 127.662714 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 전남지체장애인협회 영암군지회 ',
+address: ' <div class="ellipsis"> 전라남도 영암군 영암읍 영암로 1527 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 10:00 ~ 18:00  주말: 10:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 17:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 전남지체장애인협회 영암군지회 , 34.79496124 , 126.6969605 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 울릉택시협동조합 ',
+address: ' <div class="ellipsis"> 경상북도 울릉군 울릉읍 봉래길 250 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-791-2315 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 22:00  주말: 09:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 22:00  주말: 09:00 ~ 22:00 </div> ',
+url: ' <div><a href= " - " target="_blank" class="link">홈페이지 : - </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 울릉택시협동조합 , 37.49693638 , 130.8971107 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경상북도특별교통수단상주시부름콜센터 ',
+address: ' <div class="ellipsis"> 경상북도 상주시 경상대로 2824-33 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 18:00  주말: 07:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경상북도특별교통수단상주시부름콜센터 , 36.39972419 , 128.1513513 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 양산시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상남도 양산시 양산대로 895 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 21:00 ~ 23:59  주말: 21:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 양산시교통약자이동지원센터 , 35.35051203 , 129.0350935 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 수원시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 수원시 권선구 정조로 310 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-253-5525 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://www.suwonudc.co.kr/swcall/mainPage.do " target="_blank" class="link">홈페이지 : https://www.suwonudc.co.kr/swcall/mainPage.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 수원시교통약자이동지원센터 , 37.23777723 , 127.018347 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 사천시 특별교통수단 ',
+address: ' <div class="ellipsis"> 경상남도 사천시 새시장길 73 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.15664488.co.kr/ " target="_blank" class="link">홈페이지 : http://www.15664488.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 사천시 특별교통수단 , 34.93131695 , 128.0820506 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 사천시 특별교통수단 ',
+address: ' <div class="ellipsis"> 경상남도 사천시 사천읍 사천향교로 23-10 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.15664488.co.kr/ " target="_blank" class="link">홈페이지 : http://www.15664488.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 사천시 특별교통수단 , 35.08619443 , 128.1000627 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 가평군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 가평군 가평읍 문화로 153 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-8078-8122 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 17:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 20:00  주말: 07:00 ~ 20:00 </div> ',
+url: ' <div><a href= " https://www.gpfmc.or.kr/sub2/sub2_4-2.php " target="_blank" class="link">홈페이지 : https://www.gpfmc.or.kr/sub2/sub2_4-2.php </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 가평군교통약자이동지원센터 , 37.82631492 , 127.5078619 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 양평군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 양평군 양평읍 마유산로 9 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-8268 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 21:00  주말: 08:00 ~ 21:00 </div> ',
+url: ' <div><a href= " http://ypcall.or.kr " target="_blank" class="link">홈페이지 : http://ypcall.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 양평군교통약자이동지원센터 , 37.49776189 , 127.4871469 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 정읍시 행복콜택시 ',
+address: ' <div class="ellipsis"> 전라북도 정읍시 수성5로 41-11 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-536-9870 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 정읍시 행복콜택시 , 35.58500364 , 126.8606847 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 남양주시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 남양주시 진건읍 진건오남로 50 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1666-5525 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 21:30  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://dreamcall.nyj.go.kr/ " target="_blank" class="link">홈페이지 : http://dreamcall.nyj.go.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 남양주시교통약자이동지원센터 , 37.65539978 , 127.1792621 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 김천시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 김천시 환경로 105 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 20:00  주말: 08:00 ~ 19:00 </div> ',
+url: ' <div><a href= " www.brmcall.co.kr " target="_blank" class="link">홈페이지 : www.brmcall.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 김천시교통약자이동지원센터 , 36.13177813 , 128.137665 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 파주시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 파주시 월롱면 휴암로11 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 080-699-6199 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://ggsts.gg.go.kr/front/index.do " target="_blank" class="link">홈페이지 : https://ggsts.gg.go.kr/front/index.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 파주시 교통약자이동지원센터 , 37.7961277 , 126.7901986 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강원도교통약자광역이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 춘천시 중앙로1 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr/main.do " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr/main.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강원도교통약자광역이동지원센터 , 37.88007265 , 127.7279085 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 교통편의관리소 ',
+address: ' <div class="ellipsis"> 경상남도 창원시 성산구 원이대로 450 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 00:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 00:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " - " target="_blank" class="link">홈페이지 : - </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 교통편의관리소 , 35.234007131 , 128.6647353695 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 천안시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 천안시 동남구 다가말2길 104 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 천안시 교통약자이동지원센터 , 36.7979991 , 127.1431034 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 공주시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 공주시 의당면 의당로 257, 장애인복지센터 203호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 15:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 공주시 교통약자이동지원센터 , 36.49366156 , 127.1356957 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 보령시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 보령시 주공로8, 대동빌딩 3층 2호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 21:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 보령시 교통약자이동지원센터 , 36.34544473 , 126.6020154 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 아산시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 아산시 시민로457번길 30 (2층) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 23:59  주말: 07:00 ~ 21:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 아산시 교통약자이동지원센터 , 36.78898932 , 126.9978278 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 서산시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 서산시 오산1길 11 (2층) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 13:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 서산시 교통약자이동지원센터 , 36.74512191 , 126.4852735 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 논산시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 논산시 해월로 87번길 18 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 21:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 논산시 교통약자이동지원센터 , 36.20032028 , 127.0782185 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 순창군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 순창군 순창읍 장류로 407-11 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-227-0002 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.0632270002.com " target="_blank" class="link">홈페이지 : www.0632270002.com </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 순창군 교통약자이동지원센터 , 35.37765073 , 127.1468543 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 당진시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 당진시 백암1길 61 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 17:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 당진시 교통약자이동지원센터 , 36.88724412 , 126.6247053 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 금산군 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 금산군 금산읍 인삼로 232 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 금산군 교통약자 이동지원센터 , 36.10193265 , 127.5067571 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 부여군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 부여군 규암면 흥수로 816 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 부여군 교통약자이동지원센터 , 36.27331322 , 126.8712187 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 서천군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 서천군 서천읍 충절로81번길 7, 청림주상복합빌딩 1층7호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 서천군 교통약자이동지원센터 , 36.07485734 , 126.6914297 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 청양군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 청양군 청양읍 칠갑산로 87 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 청양군교통약자이동지원센터 , 36.44939025 , 126.786522 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 홍성군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 홍성군 홍성읍 조양로33번길 17 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 20:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 홍성군 교통약자이동지원센터 , 36.59770889 , 126.6558164 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 예산군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 예산군 예산읍 벚꽃로 155번길 10 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 예산군 교통약자이동지원센터 , 36.69471087 , 126.8353696 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 태안군 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 태안군 태안읍 후곡로 83 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 태안군 교통약자 이동지원센터 , 36.74591186 , 126.3018915 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' (사)전남장애인총연합회 강진군지부 ',
+address: ' <div class="ellipsis"> 전라남도 강진군 강진읍 시장길 17-14 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ (사)전남장애인총연합회 강진군지부 , 34.64034375 , 126.7741157 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 하남시교통약자이동지원센터-나눔콜 ',
+address: ' <div class="ellipsis"> 경기도 하남시 창우로 146 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-0197 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 08:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 하남시교통약자이동지원센터-나눔콜 , 37.538986 , 127.230067 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 해남군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 해남군 해남읍 중앙1로 40 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 0:00 ~ 23:59  주말: 0:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 0:00 ~ 23:59  주말: 0:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://www.doumcall.kr/ " target="_blank" class="link">홈페이지 : https://www.doumcall.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 해남군교통약자이동지원센터 , 34.57095368 , 126.605043 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 세종누리콜 ',
+address: ' <div class="ellipsis"> 세종특별자치시 연서면 아홉거리길 100 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-9042 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 19:00  주말: 08:00 ~ 17:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 00:00  주말: 06:00 ~ 00:00 </div> ',
+url: ' <div><a href= " https://nuricall.sctc.kr/ " target="_blank" class="link">홈페이지 : https://nuricall.sctc.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 세종누리콜 , 36.5941098997 , 127.2841210513 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 부산광역시 교통약자이동지원센터(부산시설공단) ',
+address: ' <div class="ellipsis"> 부산광역시 연제구 중앙대로1226번길 18, 1층(거제동, 금샘빌딩) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 051-466-8800 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.duribal.co.kr/ " target="_blank" class="link">홈페이지 : http://www.duribal.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 부산광역시 교통약자이동지원센터(부산시설공단) , 35.19784977 , 129.0800058 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 보령시도로교통과 ',
+address: ' <div class="ellipsis"> nan </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 041-933-3517 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 21:00  주말: 09:00 ~ 21:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 보령시도로교통과 , 36.34508656 , 126.6010488 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 화성시 교통약자이동지원센터(화성나래) ',
+address: ' <div class="ellipsis"> 경기도 화성시 향남읍 향남로 470 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 080-600-0677 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 22:00  주말: 06:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://www.hsnarae.or.kr " target="_blank" class="link">홈페이지 : https://www.hsnarae.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 화성시 교통약자이동지원센터(화성나래) , 37.13752921 , 126.9242565 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 동해시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 동해시 송정로 34 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 18:00  주말: 07:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 23:59  주말: 07:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 동해시교통약자이동지원센터 , 37.49705665 , 129.1266705 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 영천시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 영천시 천문로 210-7 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:30 ~ 17:30  주말: 08:30 ~ 17:30 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:30 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://www.brmcall.co.kr " target="_blank" class="link">홈페이지 : http://www.brmcall.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 영천시교통약자이동지원센터 , 35.957177 , 128.932791 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 칠곡군 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 칠곡군 왜관읍 석전로7길 58 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 14:00 </div> ',
+url: ' <div><a href= " 인터넷 예약 불가 " target="_blank" class="link">홈페이지 : 인터넷 예약 불가 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 칠곡군 교통약자 이동지원센터 , 36.0066688835 , 128.4082377364 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 의성군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 의성군 의성읍 잔보들길 130 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-833-2979 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://cafe.daum.net/1447-- " target="_blank" class="link">홈페이지 : http://cafe.daum.net/1447-- </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 의성군교통약자이동지원센터 , 36.3594974 , 128.6801537 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 이천시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 이천시 경충대로 2603 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-0017 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " https://www.2000happydream.or.kr " target="_blank" class="link">홈페이지 : https://www.2000happydream.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 이천시교통약자이동지원센터 , 37.27462146 , 127.4442088 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 한국교통장애인협회 청도군지회 ',
+address: ' <div class="ellipsis"> 경상북도 청도군 화양읍 남성현로 118 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 20:00  주말: 08:00 ~ 20:00 </div> ',
+url: ' <div><a href= " http://www.brmcall.co.kr/ " target="_blank" class="link">홈페이지 : http://www.brmcall.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 한국교통장애인협회 청도군지회 , 35.67096686 , 128.7394066 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 목포시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 목포시 영산로 350-3 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 00:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 00:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " http://www.doumcall.kr/index_main.html " target="_blank" class="link">홈페이지 : http://www.doumcall.kr/index_main.html </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 목포시 교통약자이동지원센터 , 34.80554093 , 126.4042502 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 진주시교통약자특별교통수단(일진교통) ',
+address: ' <div class="ellipsis"> 경상남도 진주시 내동면 순환로 425-34 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.15664488.co.kr/ " target="_blank" class="link">홈페이지 : http://www.15664488.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 진주시교통약자특별교통수단(일진교통) , 35.1642235 , 128.0651561 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 진주시교통약자특별교통수단(동진택시) ',
+address: ' <div class="ellipsis"> 경상남도 진주시 선학산길 73 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.15664488.co.kr/ " target="_blank" class="link">홈페이지 : http://www.15664488.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 진주시교통약자특별교통수단(동진택시) , 35.18727147 , 128.1119228 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 착한수레 ',
+address: ' <div class="ellipsis"> 경기도 안양시 동안구 평촌대로 389 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-389-5200 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 22:00  주말: 07:00 ~ 20:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 착한수레 , 37.40629131 , 126.9487366 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경주시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 경주시 화랑로 10(성건동) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-777-2811 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경주시교통약자이동지원센터 , 35.8444091402 , 129.201709 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 안산시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 안산시 단원구 화랑로 260 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1588-5410 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 안산시 교통약자이동지원센터 , 37.31947602 , 126.8164939 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' (사)한국지체장애인협회 부여군지회 ',
+address: ' <div class="ellipsis"> 충청남도 부여군 규암면 흥수로 816 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 041-836-2155 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ (사)한국지체장애인협회 부여군지회 , 36.27331214 , 126.8712172 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 충주시특별교통수단이동지원센터(출근) ',
+address: ' <div class="ellipsis"> 충청북도 충주시 목행산단2로 18 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1533-0220 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:30 ~ 09:30  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 충주시특별교통수단이동지원센터(출근) , 37.00169614 , 127.9180329 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 충주시특별교통수단이동지원센터(퇴근) ',
+address: ' <div class="ellipsis"> 충청북도 충주시 목행산단2로 18 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1533-0220 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 17:00 ~ 19:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 충주시특별교통수단이동지원센터(퇴근) , 37.00169614 , 127.9180329 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 구리시 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 구리시 동구릉로 136번길 57, 별관 2,3층 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-3659 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://gurihappycall.guriuc.or.kr/ " target="_blank" class="link">홈페이지 : https://gurihappycall.guriuc.or.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 구리시 교통약자 이동지원센터 , 37.61313887 , 127.1409183 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 장흥군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 장흥군 장흥읍 북부로 73 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 17:00 </div> ',
+url: ' <div><a href= " http://www.doumcall.kr " target="_blank" class="link">홈페이지 : http://www.doumcall.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 장흥군교통약자이동지원센터 , 34.68686476 , 126.9096495 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 고흥군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 고흥군 고흥읍 신계학림길 39 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 19:00  주말: 08:00 ~ 12:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 20:00  주말: 08:00 ~ 13:00 </div> ',
+url: ' <div><a href= " http://doumcall.kr " target="_blank" class="link">홈페이지 : http://doumcall.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 고흥군교통약자이동지원센터 , 34.613793569 , 127.2879524306 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 봄내콜이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 춘천시 동면 소양강로 304-11(장학리) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1544-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 봄내콜이동지원센터 , 37.914628 , 127.748277 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 구례군 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 구례군 구례읍 서시천로 106 (사)전남지체장애인협회 구례군지회 1층 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 23:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " www.jnwf.kr " target="_blank" class="link">홈페이지 : www.jnwf.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 구례군 교통약자 이동지원센터 , 35.2166161 , 127.4668741 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 논산시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 논산시 해월로87번길 18 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 00:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 21:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 논산시교통약자이동지원센터 , 36.2003202 , 127.078218 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 여주시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 여주시 여흥로109번길 17-1(창동) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1522-2796 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 22:00  주말: 06:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 22:00  주말: 06:00 ~ 22:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 여주시 교통약자이동지원센터 , 37.29737726 , 127.6358905 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 성남시내버스(주) 택시사업부 ',
+address: ' <div class="ellipsis"> 경기도 성남시 중원구 순환로233 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-1158 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 성남시내버스(주) 택시사업부 , 37.44407384 , 127.1785358 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 광주희망콜 ',
+address: ' <div class="ellipsis"> 경기도 광주시 청석로 256 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1666-6636 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 19:00  주말: 08:00 ~ 19:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 08:00 ~ 21:00 </div> ',
+url: ' <div><a href= " http://www.gjhpcall.or.kr " target="_blank" class="link">홈페이지 : http://www.gjhpcall.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 광주희망콜 , 37.40998092 , 127.2653231 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경북광역이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 구미시 산책길 33-4 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 20:00  주말: 08:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 22:00  주말: 08:00 ~ 18:00 </div> ',
+url: ' <div><a href= " brmcall.co.kr " target="_blank" class="link">홈페이지 : brmcall.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경북광역이동지원센터 , 36.12375 , 128.332153 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' (사)지체장애인협회 의령군지회 ',
+address: ' <div class="ellipsis"> 경상남도 의령군 의령읍 의병로8길 44 종합사회복지관 1층 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 21:00 ~ 00:00  주말: 21:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " www.15664488.co.kr " target="_blank" class="link">홈페이지 : www.15664488.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ (사)지체장애인협회 의령군지회 , 35.315489 , 128.255951 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 신안군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 목포시 수강로3번길 14 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 10:00 ~ 18:00  주말: 10:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 19:00  주말: 07:00 ~ 19:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 신안군교통약자이동지원센터 , 34.7844599549 , 126.3849637813 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 광명시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 광명시 범안로 966 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 02-2610-2000 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 13:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 24:00  주말: 00:00 ~ 24:00 </div> ',
+url: ' <div><a href= " https://ggsts.gg.go.kr/front/index.do " target="_blank" class="link">홈페이지 : https://ggsts.gg.go.kr/front/index.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 광명시 교통약자이동지원센터 , 37.45727525 , 126.8723345 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 고양시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 고양시 일산동구 강송로 14 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-5909 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 22:00  주말: 06:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 고양시 교통약자이동지원센터 , 37.64247907 , 126.7953758 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 장수군 이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 장수군 장수읍 신천로 79 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-227-0002 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 23:59  주말: 09:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.0632270002.com/view/index.do " target="_blank" class="link">홈페이지 : http://www.0632270002.com/view/index.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 장수군 이동지원센터 , 35.65392867 , 127.517936 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 영광군 특별교통수단(장애인콜택시) ',
+address: ' <div class="ellipsis"> 전라남도 영광군 영광읍 옥당로 50 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 23:59  주말: 07:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 22:00  주말: 08:00 ~ 17:00 </div> ',
+url: ' <div><a href= " http://www.doumcall.kr " target="_blank" class="link">홈페이지 : http://www.doumcall.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 영광군 특별교통수단(장애인콜택시) , 35.26952915 , 126.5090179 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 여수시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 여수시 반월길 72 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 061-287-8340 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.doumcall.kr " target="_blank" class="link">홈페이지 : www.doumcall.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 여수시교통약자이동지원센터 , 34.7770136 , 127.6554801 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 한국교통장애인협회 영덕군지회 ',
+address: ' <div class="ellipsis"> 경상북도 영덕군 영덕읍 남석2길 5 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-734-3006 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 한국교통장애인협회 영덕군지회 , 36.4104850029 , 129.367214 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 청주시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 청주시 서원구 사직대로 229, 북5문 117 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1588-8488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.cjsisul.or.kr/reserve/sub.do?menukey=239 " target="_blank" class="link">홈페이지 : http://www.cjsisul.or.kr/reserve/sub.do?menukey=239 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 청주시교통약자이동지원센터 , 36.63785612 , 127.4723448 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 장애인생활이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 금산군 금산읍 약초로 50, 201호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 041-754-0857 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 장애인생활이동지원센터 , 36.10044872 , 127.4985088 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 남원시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 남원시 검멀길 13 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-227-0002 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 23:59  주말: 08:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 23:59  주말: 08:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.0632270002.com " target="_blank" class="link">홈페이지 : www.0632270002.com </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 남원시 교통약자이동지원센터 , 35.40341851 , 127.377408 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 한국교통장애인협회영주시지회 ',
+address: ' <div class="ellipsis"> 경상북도 영주시 광복로46번길 15, 1층 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-638-0112 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://www.brmcall.co.kr " target="_blank" class="link">홈페이지 : http://www.brmcall.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 한국교통장애인협회영주시지회 , 36.8270932 , 128.6235929 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경상남도특별교통수단콜센터 ',
+address: ' <div class="ellipsis"> 경상남도 창원시 의창구 우곡로 209(명서동) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 21:00 ~ 23:59  주말: 21:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경상남도특별교통수단콜센터 , 35.2396723 , 128.6475949 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 양구군 장애인생활이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 양구군 양구읍 비봉로73번길 12 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 033-481-7575 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 양구군 장애인생활이동지원센터 , 38.1087485207 , 127.9864048749 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 인천 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 인천광역시 미추홀구 매소홀로 618 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-0320 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.intis.or.kr " target="_blank" class="link">홈페이지 : www.intis.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 인천 교통약자 이동지원센터 , 37.4365452 , 126.6864606 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 군산시 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 군산시 설림길 25 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-227-0002 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.0632270002.com " target="_blank" class="link">홈페이지 : www.0632270002.com </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 군산시 교통약자 이동지원센터 , 35.97302347 , 126.684383 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 창원시설공단 교통편의관리소 ',
+address: ' <div class="ellipsis"> 경상남도 창원시 성산구 원이대로 450 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 21:00 ~ 23:59  주말: 21:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 창원시설공단 교통편의관리소 , 35.234007 , 128.664735 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강원도지체장애인협회 고성군지회 ',
+address: ' <div class="ellipsis"> 강원도 고성군 죽왕면 동해대로 6520 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr/main.do " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr/main.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강원도지체장애인협회 고성군지회 , 38.37818193 , 128.4988401 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강릉시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 강릉시 강변로 636-5 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강릉시교통약자이동지원센터 , 37.76923243 , 128.9298548 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 예산군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 예산군 예산읍 벚꽃로155번길 10 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 예산군 교통약자이동지원센터 , 36.6947127553 , 126.8353690422 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 임실군장애인연합회 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 임실군 임실읍 호국로 1644 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-642-5118 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 10:00  주말: 09:00 ~ 10:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 22:00  주말: 08:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 임실군장애인연합회 교통약자이동지원센터 , 35.61026512 , 127.283295 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 고창군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 고창군 고창읍 월곡14길 19 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-561-2338 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 22:00  주말: 08:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 0632270002.com " target="_blank" class="link">홈페이지 : 0632270002.com </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 고창군교통약자이동지원센터 , 35.43762073 , 126.7129638 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 사)한국지체장애인협회 함평군지회 ',
+address: ' <div class="ellipsis"> 전라남도 함평군 함평읍 남일길 238-61 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 00:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 사)한국지체장애인협회 함평군지회 , 35.07582913 , 126.512894 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강원도 교통약자 광역이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 춘천시 봉의동 중앙로1 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 06:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강원도 교통약자 광역이동지원센터 , 37.8800729197 , 127.7279078203 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 대구시달서구장애인이동지원센터 ',
+address: ' <div class="ellipsis"> 대구광역시 달서구 월성로 77 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 053-641-0641 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 대구시달서구장애인이동지원센터 , 35.83004237 , 128.528337 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경북지체장애인협회 봉화군지회 ',
+address: ' <div class="ellipsis"> 경상북도 봉화군 봉화읍 내성천2길 93 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:30 ~ 18:00  주말: 09:30 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 17:00  주말: 09:30 ~ 18:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경북지체장애인협회 봉화군지회 , 36.89365762 , 128.737331 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 진천군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 진천군 진천읍 중앙북1길 11-10 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-534-5758 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 19:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 19:00  주말: 08:30 ~ 17:30 </div> ',
+url: ' <div><a href= " 인터넷 예약 안됨 " target="_blank" class="link">홈페이지 : 인터넷 예약 안됨 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 진천군 교통약자이동지원센터 , 36.8610976 , 127.439492 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 장성군교통약자이동편의증진센터(전남지체장애인협회 장성군지회) ',
+address: ' <div class="ellipsis"> 전라남도 장성군 장성읍 청운길 23 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 23:59  주말: 09:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 장성군교통약자이동편의증진센터(전남지체장애인협회 장성군지회) , 35.30199904 , 126.7813166 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 연천군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 연천군 전곡읍 전곡로 193 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-835-1155 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 17:00  주말: 08:00 ~ 12:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 연천군교통약자이동지원센터 , 38.02902948 , 127.0661008 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 정선군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 정선군 정선읍 녹송2길 50 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 21:59 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 정선군교통약자이동지원센터 , 37.38230943 , 128.673439 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경남지체장애인협회합천군지회 ',
+address: ' <div class="ellipsis"> 경상남도 합천군 합천읍 남정길 79 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://www.kndaf.or.kr " target="_blank" class="link">홈페이지 : http://www.kndaf.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경남지체장애인협회합천군지회 , 35.56841416 , 128.1569121 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 산청군 교통약자 콜택시 ',
+address: ' <div class="ellipsis"> 경상남도 산청군 산청읍 웅석봉로133번길 178 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 21:00 ~ 23:59  주말: 21:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 06:00 ~ 23:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 산청군 교통약자 콜택시 , 35.413607 , 127.886574 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 거창군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상남도 거창군 거창읍 중앙로 103 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 05:00 ~ 23:00  주말: 07:00 ~ 22:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 거창군교통약자이동지원센터 , 35.68667584 , 127.9095332 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' (사)강원도지체장애인협회 평창군지회 ',
+address: ' <div class="ellipsis"> 강원도 평창군 진부면 진벌1길 144-19 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ (사)강원도지체장애인협회 평창군지회 , 37.65292724 , 128.5711924 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 청송군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 청송군 청송읍 중앙로 299 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.brmcall.co.kr " target="_blank" class="link">홈페이지 : http://www.brmcall.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 청송군 교통약자이동지원센터 , 36.43511571 , 129.0614924 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 교통약자 특별교통수단 ',
+address: ' <div class="ellipsis"> 경상남도 통영시 북문2길 43-16 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 교통약자 특별교통수단 , 34.84996554 , 128.4293738 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 이지콜센터 ',
+address: ' <div class="ellipsis"> 전라북도 전주시 덕진구 기린대로 451 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-227-0002 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.0632270002.com " target="_blank" class="link">홈페이지 : http://www.0632270002.com </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 이지콜센터 , 35.84075454 , 127.127127 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 나주시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 나주시 봉황로 49 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 10:00 ~ 18:00  주말: 10:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.doumcall.kr " target="_blank" class="link">홈페이지 : http://www.doumcall.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 나주시교통약자이동지원센터 , 34.98798165 , 126.7286244 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 청양군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 청양군 청양읍 칠갑산로 87 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 041-942-2111 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 16:00  주말: 09:00 ~ 16:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 청양군교통약자이동지원센터 , 36.44939025 , 126.786522 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' (사)한국교통장애인협회 울진군지회 ',
+address: ' <div class="ellipsis"> 경상북도 울진군 울진읍 공세항길 19-60 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 054-782-5775 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ (사)한국교통장애인협회 울진군지회 , 36.99137861 , 129.405693 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 익산시장애인콜택시콜센터 ',
+address: ' <div class="ellipsis"> 전라북도 익산시 번영로1길 20 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-853-1334 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 익산시장애인콜택시콜센터 , 35.919194 , 126.9188748 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 평택시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 평택시 도일유통길 25 평택도시공사 3층 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-651-4700 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://ggsts.gg.go.kr " target="_blank" class="link">홈페이지 : http://ggsts.gg.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 평택시 교통약자이동지원센터 , 37.0386047913 , 127.1006932 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 광양시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 광양시 광양읍 남등1길 72-4 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1100 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 광양시 교통약자이동지원센터 , 34.9754338 , 127.5782601 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 용인시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 용인시 처인구 동백죽전대로 61 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-526-7755 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 22:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://www.yonginnuri.or.kr/ " target="_blank" class="link">홈페이지 : https://www.yonginnuri.or.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 용인시교통약자이동지원센터 , 37.2496309738 , 127.16515804 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 전라남도 지체장애인협회 곡성군지회 ',
+address: ' <div class="ellipsis"> 전라남도 곡성군 곡성읍 읍내14길 12-1 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 061-363-8220 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 전라남도 지체장애인협회 곡성군지회 , 35.28043576 , 127.2962815 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 남해군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상남도 남해군 남해읍 선소로75번길 87-22 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 08:00 ~ 19:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 08:00 ~ 19:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 남해군교통약자이동지원센터 , 34.84954976 , 127.9088757 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경기도안성시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 안성시 보개면 종합운동장로 162 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-677-6655 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 21:00  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.asimc.or.kr " target="_blank" class="link">홈페이지 : www.asimc.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경기도안성시교통약자이동지원센터 , 37.01319895 , 127.3278403 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강남세움복지관 ',
+address: ' <div class="ellipsis"> 서울특별시 강남구 광평로60길 22 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 02-2184-8707 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:30 ~ 17:21  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.gnseum.org " target="_blank" class="link">홈페이지 : www.gnseum.org </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강남세움복지관 , 37.48698084 , 127.106927 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 부천시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 부천시 석천로 293 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1588-3815 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 14:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 17:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " https://www.best.or.kr/fmcs/25 " target="_blank" class="link">홈페이지 : https://www.best.or.kr/fmcs/25 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 부천시교통약자이동지원센터 , 37.51275697 , 126.7639108 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 의왕시 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 의왕시 왕소나무길 29-15 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-462-8253 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 인터넷접수 불가(www.uuc.or.kr) " target="_blank" class="link">홈페이지 : 인터넷접수 불가(www.uuc.or.kr) </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 의왕시 교통약자 이동지원센터 , 37.30274385 , 126.959074 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 양주시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 양주시 광적면 부흥로618번길 303 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-861-9977 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 23:00  주말: 07:00 ~ 23:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 양주시교통약자이동지원센터 , 37.81249951 , 126.9723084 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 무안군교통약지이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 무안군 무안읍 면성1길 27 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " http://www.doumcall.kr/ " target="_blank" class="link">홈페이지 : http://www.doumcall.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 무안군교통약지이동지원센터 , 34.99186126 , 126.478132 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 영양군 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 영양군 영양읍 동서대로 90 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://brmcall.co.kr/ " target="_blank" class="link">홈페이지 : http://brmcall.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 영양군 교통약자이동지원센터 , 36.66192436 , 129.1186857 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 속초시 사회복지협의회 특별교통수단 이동지원센터 ',
+address: ' <div class="ellipsis"> 강원특별자치도 속초시 청초호반로 296 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 23:59  주말: 08:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 23:59 ~ 23:59  주말: 23:59 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 속초시 사회복지협의회 특별교통수단 이동지원센터 , 38.2015051885 , 128.5894937959 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 경북광역이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 경산시 화랑로 13 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-7770 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 10:00 ~ 18:00  주말: 10:00 ~ 17:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " www.brmcall.co.kr " target="_blank" class="link">홈페이지 : www.brmcall.co.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 경북광역이동지원센터 , 35.81721215 , 128.7682761 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라북도 부안군 부안읍 오리정로 89 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-583-1010 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 교통약자이동지원센터 , 35.7233599 , 126.7317745 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 포천시 군내면 청성로 112 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-536-2000 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 교통약자이동지원센터 , 37.89623177 , 127.211078 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 제주특별자치도 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 제주특별자치도 제주시 한라대학로 15 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-6884 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.jejuhappycall.com/ " target="_blank" class="link">홈페이지 : http://www.jejuhappycall.com/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 제주특별자치도 교통약자이동지원센터 , 33.47976965 , 126.4736511 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 오산시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 오산시 경기동로 15 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-378-7816 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 08:00 ~ 12:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 08:00 ~ 20:00 </div> ',
+url: ' <div><a href= " 해당사항없음 " target="_blank" class="link">홈페이지 : 해당사항없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 오산시교통약자이동지원센터 , 37.156843 , 127.0726163 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 태안군 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 태안군 태안읍 후곡로 83 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 041-673-1040 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 17:20  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 17:50  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 태안군 교통약자 이동지원센터 , 36.74591186 , 126.3018915 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 전라남도 순천시 용당둑길 121 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 061-751-8181 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " https://www.doumcall.kr " target="_blank" class="link">홈페이지 : https://www.doumcall.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 교통약자이동지원센터 , 34.96091348 , 127.4897497 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 정선군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 강원특별자치도 정선군 정선읍 녹송2길 50 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 21:59 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 정선군교통약자이동지원센터 , 37.38230943 , 128.673439 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 동두천시 교통약자(특별교통수단) 이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 동두천시 어등로 45 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 031-862-1091 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:30 ~ 17:30  주말: 08:30 ~ 17:30 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 동두천시 교통약자(특별교통수단) 이동지원센터 , 37.9008389589 , 127.0704968445 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 충청북도지체장애인협회증평군지회 ',
+address: ' <div class="ellipsis"> 충청북도 증평군 증평읍 광장로 118 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-838-8822 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 충청북도지체장애인협회증평군지회 , 36.78404788 , 127.5848022 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 서산시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 서산시 안견로 252, 4층 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 13:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 13:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 서산시교통약자이동지원센터 , 36.77801054 , 126.4554934 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 홍성군 특별교통수단 및 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 홍성군 홍성읍 조양로33번길 17 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1644-5588 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 20:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 홍성군 특별교통수단 및 이동지원센터 , 36.59770889 , 126.6558164 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 단양군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 단양군 단양읍 별곡3로 19 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-421-1005 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 13:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 단양군교통약자이동지원센터 , 36.9874170531 , 128.3650489202 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 단양군장애인생활이동지원센터 ',
+address: ' <div class="ellipsis"> 충청북도 단양군 단양읍 별곡5길5 (3층) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-421-7788 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 단양군장애인생활이동지원센터 , 36.98530043 , 128.3686533 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 단양군장애인단체연합회 ',
+address: ' <div class="ellipsis"> 충청북도 단양군 단양읍 별곡5길5 (3층) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-423-1776 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 단양군장애인단체연합회 , 36.98530043 , 128.3686533 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 사단법인한국시각장애인연합회영월지회 ',
+address: ' <div class="ellipsis"> 강원특별자치도 영월군 영월읍 단종로 21 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " call.gwd.go.kr " target="_blank" class="link">홈페이지 : call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 사단법인한국시각장애인연합회영월지회 , 37.185347 , 128.467917 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 대광택시㈜ ',
+address: ' <div class="ellipsis"> 경상남도 밀양시 부북면 밀양대로 1651 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 대광택시㈜ , 35.47395045 , 128.7540292 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 서천군 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 서천군 서천읍 충절로81번길 7, 청림주상복합빌딩 1층7호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 041-951-0774 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 서천군 교통약자 이동지원센터 , 36.07484589 , 126.6914382 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 천안시 교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 충청남도 천안시 동남구 천중3길 30-1 303호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 041-558-0010 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " 없음 " target="_blank" class="link">홈페이지 : 없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 천안시 교통약자이동지원센터 , 36.809959 , 127.155963 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 괴산군 교통약자 이동지원센터(장애인협회) ',
+address: ' <div class="ellipsis"> 충청북도 괴산군 괴산읍 읍내로3길 11 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-832-7775 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 괴산군 교통약자 이동지원센터(장애인협회) , 36.80617067 , 127.7915432 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 괴산군 교통약자 이동지원센터(모범운전자회) ',
+address: ' <div class="ellipsis"> 충청북도 괴산군 괴산읍 남산길 59 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 043-834-0008 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 08:30 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 08:30 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 괴산군 교통약자 이동지원센터(모범운전자회) , 36.80574942 , 127.8005846 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 김해교통약자콜택시 ',
+address: ' <div class="ellipsis"> nan </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1566-4488 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://www.15664488.co.kr/ " target="_blank" class="link">홈페이지 : http://www.15664488.co.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 김해교통약자콜택시 , 35.22752268 , 128.900987 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 포항시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경상북도 포항시 남구 희망대로 810 포항종합운동장 167호 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1800-9300 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 08:00 ~ 20:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 08:00 ~ 20:00 </div> ',
+url: ' <div><a href= " http://phhpcall.phsisul.org/ " target="_blank" class="link">홈페이지 : http://phhpcall.phsisul.org/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 포항시교통약자이동지원센터 , 36.008952 , 129.363876 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 전라남도지체장애인협회 보성군지회 ',
+address: ' <div class="ellipsis"> 전라남도 보성군 보성읍 현충로 186 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-1110 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 18:00  주말: 08:00 ~ 18:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 전라남도지체장애인협회 보성군지회 , 34.77417491 , 127.0865911 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 홍천군교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 강원특별자치도 홍천군 홍천읍 너브내길 127 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 07:00 ~ 22:00  주말: 07:00 ~ 18:00 </div> ',
+url: ' <div><a href= " https://call.gwd.go.kr/ " target="_blank" class="link">홈페이지 : https://call.gwd.go.kr/ </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 홍천군교통약자이동지원센터 , 37.69233941 , 127.8920355 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 과천시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 과천시 통영로 5 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 02-580-8400 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 08:00 ~ 19:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " https://ggsts.gg.go.kr/front/index.do " target="_blank" class="link">홈페이지 : https://ggsts.gg.go.kr/front/index.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 과천시교통약자이동지원센터 , 37.4281927195 , 126.9891524184 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 군포시 교통약자 이동지원센터 ',
+address: ' <div class="ellipsis"> 경기도 군포시 공단로 30 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1899-4428 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 06:00 ~ 21:00  주말: 08:00 ~ 17:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 06:00 ~ 20:00 </div> ',
+url: ' <div><a href= " https://bokjicall.gunpouc.or.kr " target="_blank" class="link">홈페이지 : https://bokjicall.gunpouc.or.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 군포시 교통약자 이동지원센터 , 37.34847646 , 126.9503025 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 장애인콜택시 ',
+address: ' <div class="ellipsis"> 전라북도 완주군 봉동읍 봉동동서로 89 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 063-227-0002 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 00:00  주말: 08:00 ~ 20:00 </div> ',
+url: ' <div><a href= " http://0632270002.com " target="_blank" class="link">홈페이지 : http://0632270002.com </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 장애인콜택시 , 35.93733144 , 127.1620975 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 양구군 장애인생활이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 양구군 양구읍 비봉로73번길 12 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 033-481-7575 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " 해당없음 " target="_blank" class="link">홈페이지 : 해당없음 </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 양구군 장애인생활이동지원센터 , 38.1087485207 , 127.9864048749 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강릉시교통약자이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 강릉시 강변로 636-5 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강릉시교통약자이동지원센터 , 37.76923243 , 128.9298548 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강원도 교통약자 광역이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 춘천시 봉의동 중앙로1 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 00:00 ~ 23:59  주말: 06:00 ~ 23:59 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 00:00 ~ 23:59  주말: 00:00 ~ 23:59 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강원도 교통약자 광역이동지원센터 , 37.8800729197 , 127.7279078203 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 강원도교통약자광역이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 춘천시 중앙로1 </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1577-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 00:00 ~ 00:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr/main.do " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr/main.do </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 강원도교통약자광역이동지원센터 , 37.88007265 , 127.7279085 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+},
+{
+name: ' 봄내콜이동지원센터 ',
+address: ' <div class="ellipsis"> 강원도 춘천시 동면 소양강로 304-11(장학리) </div> ',
+tel: ' <div class="jibun ellipsis"> 전화번호: 1544-2014 </div> ',
+re_time: ' <div class="jibun ellipsis"> (예약시간) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+mo_time: ' <div class="jibun ellipsis"> (차량운행) 평일: 09:00 ~ 18:00  주말: 09:00 ~ 18:00 </div> ',
+url: ' <div><a href= " http://call.gwd.go.kr " target="_blank" class="link">홈페이지 : http://call.gwd.go.kr </a></div> ',
+navi: ' <div><a href= " https://map.kakao.com/link/to/ 봄내콜이동지원센터 , 37.914628 , 127.748277 " target="_blank" class="link">길 찾기(카카오 지도) </a></div> ',
+}
+    ]
+
+
+// 지도에 마커를 표시합니다 
+
+for (var i=0; i<positions.length;i++){
+	var markerPosition  = positions[i].lating
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+		position: markerPosition
+	});
+	marker.setMap(map);
+	
+    // 커스텀 오버레이에 표시할 컨텐츠 입니다
+    var content = '<div class="wrap">' + 
+                '      <div class="info">' + 
+                '        <div class="title">' + 
+                                contents[i].name+ 
+                '        </div>' + 
+
+                '        <div class="body">' + 
+                                contents[i].address+
+                                contents[i].tel+ 
+                                contents[i].re_time+
+                                contents[i].mo_time+ 
+                                contents[i].url+ 
+                                contents[i].navi+
+                '            </div>' + 
+
+                '        </div>' + 
+                '    </div>' +    
+                '</div>';
+
+    // 마커 위에 커스텀오버레이를 표시합니다
+    // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+  	var overlay = new kakao.maps.CustomOverlay({
+        content: content,
+        position: marker.getPosition(),
+        yAnchor: 1,
+        map: null,       
+    });
+    // 마커 클릭 이벤트 처리
+    kakao.maps.event.addListener(marker, 'click', makeClickListener(marker, overlay));
+}
+    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    kakao.maps.event.addListener(marker, 'click', function() {
+        overlay.setMap(map);
+    });
+
+
+
+function makeClickListener(marker, overlay) {
+    return function() {
+        if (overlay.getMap()) {
+        overlay.setMap(null);
+        } 
+        else {
+        overlay.setMap(map);
+        }
+    }
+}
+</script>
+</body>
+</html>

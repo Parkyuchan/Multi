@@ -14,9 +14,8 @@ class Post(models.Model):
     ending = models.BooleanField(default=False, blank = True)
     followings = models.ManyToManyField("accounts.User", blank=True, symmetrical=False, related_name='followers')
 
-
     def __str__(self):  # [제목번호]제목 :: 작성자명 <-- 이와 같은 형식으로 나올 수 있도록 설정(관리자 페이지)
-        return f'[{self.pk}]{self.title} :: {self.user}'
+        return f'[{self.pk}] {self.title} :: {self.user}'
     # pk는 각 레코드의 고유값(1,2....)
     # self.title로 제목 나타내기
 
@@ -24,5 +23,5 @@ class Post(models.Model):
         return f'/post/{self.pk}/'
 
     class Meta:
-        verbose_name_plural = '게시물'  # 관리자 페이지에서 카테고리 목록 이름을 categorys에서 categories로 변경
+        verbose_name_plural = '구인공고'  # 관리자 페이지에서 카테고리 목록 이름을 categorys에서 categories로 변경
         

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'post',
     'crispy_forms',
     'crispy_bootstrap4',
+    'product',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [

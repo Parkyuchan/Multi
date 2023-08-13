@@ -103,6 +103,7 @@ def delete(request) :
     user.delete()
     return redirect('/')
 
+@login_required
 def profile_register(request, post_pk, user_pk):
     user_list = get_user_model().objects.all()
     user = get_user_model()
