@@ -1,7 +1,7 @@
 {% include 'first/base.html' %}
 {% if request.user == person %}
     {% with user_followers=post.followings.all %}
-        {% for list in user_followers %}
+        {% for list in user_followers %}            
                 <hr>
                 {{list.username}}님 프로필</a>
                 <p>성명 : {{list.username}}</p>

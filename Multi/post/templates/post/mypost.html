@@ -1,0 +1,33 @@
+<!-- Blog post 영역-->
+<p>마감된 글</p>
+{% for p in post %}
+    {% if request.user.pk == p.user.pk and p.ending == True %}
+        <hr>
+        <div class="container my-4" id="post-{{p.pk}}">
+            <div class="container-body">
+                <li class="container-title" href="{{p.get_absolute_url}}"><a href="{{p.get_absolute_url}}" class="btn btn-primary" >
+                    {{p.title}}</a></li>  
+            </div>
+            <div class="container-footer text-muted">
+                {{p.created_at|date:'y.m.d'}}
+            </div>
+        </div>
+        <hr>
+    {% endif %}
+{% endfor %}      <!--for문 끝-->
+<p>진행중 글</p>
+{% for p in post %}
+    {% if request.user.pk == p.user.pk and p.ending == False %}
+        <hr>
+        <div class="container my-4" id="post-{{p.pk}}">
+            <div class="container-body">
+                <li class="container-title" href="{{p.get_absolute_url}}"><a href="{{p.get_absolute_url}}" class="btn btn-primary" >
+                    {{p.title}}</a></li>  
+            </div>
+            <div class="container-footer text-muted">
+                {{p.created_at|date:'y.m.d'}}
+            </div>
+        </div>
+        <hr>
+    {% endif %}
+{% endfor %}     

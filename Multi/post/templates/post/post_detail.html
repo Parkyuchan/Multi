@@ -10,15 +10,9 @@
 
     <a class="btn btn-info btn-sm" href="/post/{{ post.pk }}/delete_post/" role="button" style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i
             class="fas fa-pen"></i> 삭제</a>
-    
-    <a class="btn btn-info btn-sm" href="/post/{{post.pk}}/end/" role="button" style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i
+    <a class="btn btn-info btn-sm" href="{% url 'post:ending' post.pk %}" style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i
             class="fas fa-pen"></i> 마감하기
-            {% with user_followers=post.user.followers.all %}
-            {% for follower in user_followers %}
-                <a action="{% url 'accounts:follow' post.user.pk %}"></a>
-                    {% endfor %}
-                    {% endwith %}
-                </a>
+            
     <a href="{% url 'accounts:profile_register' post.pk post.user.pk %}">신청자 보러 가기</a>        
     {% else %}
         

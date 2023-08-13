@@ -15,6 +15,7 @@ class PostList(ListView):
 class PostDetail(DetailView):
     model = Post
     
+    
 
 def createPost(request):
     if request.method == 'POST':
@@ -101,21 +102,20 @@ def follow(request, post_pk, user_pk):
     return redirect('/post/')
 
 
-def ending(request, pk):
-    post = Post.objects.get(id=pk)
+def ending(request, post_pk):
+    post = Post.objects.get(id=post_pk)
     post.ending = True
+    
     post.save()
+    return redirect('/post/')
+
+def mypost(request, pk):
+    post = Post.objects.all()
     User = get_user_model()
-    # 팔로우 당하는 사람
-    user = User.objects.get(pk=pk)
-    if user != request.user:
-        # 팔로우를 요청한 사람 => request.user
-        # 팔로우가 되어 있다면,
-        if user.followers.filter(pk=request.user.pk).exists():
-            # 삭제
-            user.followers.remove(request.user)
-        else:
-            # 추가
-            user.followers.add(request.user)
-        return render(request, 'post/post_detail.html')
-    return redirect('/post')
+    user = get_object_or_404(User, pk=pk)
+    context = {
+            'post': post,
+            'user': user
+        }
+    
+    return render(request, 'post/mypost.html', context)
