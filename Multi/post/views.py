@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Post
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from .forms import PostForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -14,21 +13,20 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     model = Post
-    
-    
-
 def createPost(request):
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
         user = request.user
-        started_at = request.POST['started_at']
+        started_date = request.POST['started_date']
+        started_time = request.POST['started_time']
         arrive_place = request.POST['arrive_place']
         post = Post(
             title=title,
             content=content,
             user=user,
-            started_at=started_at,
+            started_date=started_date,
+            started_time=started_time,
             arrive_place=arrive_place
         )
         post.save()
@@ -47,7 +45,8 @@ def postUpdate(request, pk):
     if request.method == "POST" and request.user.is_authenticated and request.user == post.user :
         post.title = request.POST['title']
         post.content = request.POST['content']
-        post.started_at = request.POST['started_at']
+        post.started_date = request.POST['started_date']
+        post.started_time = request.POST['started_time']
         post.arrive_place = request.POST['arrive_place']
         post.save()
         return redirect('/post/')
@@ -64,23 +63,6 @@ def delete_post(request, pk):
         return redirect('/post')
     else:
         raise PermissionDenied
-    
-class PostSearch(PostList):
-    paginate_by = None
-
-    def get_queryset(self):
-        q = self.kwargs['q']
-        post_list = Post.objects.filter(
-            Q(title__contains=q)
-        ).distinct()
-        return post_list
-
-    def get_context_data(self, **kwargs):
-        context = super(PostSearch, self).get_context_data()
-        q = self.kwargs['q']
-        context['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
-
-        return context
     
 @login_required
 def follow(request, post_pk, user_pk):  
@@ -102,8 +84,8 @@ def follow(request, post_pk, user_pk):
     return redirect('/post/')
 
 
-def ending(request, post_pk):
-    post = Post.objects.get(id=post_pk)
+def ending(request, pk):
+    post = Post.objects.get(id=pk)
     post.ending = True
     
     post.save()

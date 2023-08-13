@@ -30,7 +30,6 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000',]
 AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
 INSTALLED_APPS = [
-    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,7 +73,8 @@ TEMPLATES = [
         },
     },
 ]
-
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+TIME_INPUT_FORMATS = ['%s:%i:%H']
 WSGI_APPLICATION = 'Multi.wsgi.application'
 
 # Database

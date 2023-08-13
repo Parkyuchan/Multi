@@ -21,7 +21,8 @@
     <!--Post Content-->
     <div class="card-body">
         <small>작성일 : {{post.created_at | date:'y.m.d'}}</small>
-        <p>출발 날짜 : {{post.started_at | date:'h.m.s'}}</p>
+        <p>출발 날짜 : {{post.started_date | date:'Y년 m월 d일'}}</p>
+        <p>출발 시간 : {{post.started_time | date:'H시 i분'}}</p>
         <p>목적지 : {{post.arrive_place}}</p>
         <p>내용 : {{post.content}}</p>
         <p>작성자 : {{post.user.username}}</p>

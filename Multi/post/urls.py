@@ -9,7 +9,6 @@ urlpatterns = [
     path('create_post/', views.createPost),
     path('<int:pk>/update_post/', views.postUpdate),
     path('<int:pk>/delete_post/', views.delete_post),
-    path('<str:q>/search/', views.PostSearch.as_view()),
     path('<int:post_pk>/<int:user_pk>/follow/', views.follow, name='follow'),
     path('<int:pk>/end/', views.ending, name='ending'),
     path('<int:pk>/mypost/', views.mypost, name='mypost'),

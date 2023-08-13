@@ -8,7 +8,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    started_at = models.TimeField(blank=True)
+    started_date = models.DateField(blank=True, null=True)
+    started_time = models.TimeField(blank=True, null=True)
     arrive_place = models.CharField(max_length=30)
     
     ending = models.BooleanField(default=False, blank = True)
