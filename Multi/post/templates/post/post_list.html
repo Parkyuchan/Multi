@@ -1,28 +1,114 @@
-{% include "first/base.html" %}
-{% include 'post/search_post.html' %}
-{% if user.is_authenticated and user.volunteer == False%}
-    <a class="btn btn-info btn-sm float-right" href="/post/create_post/" role="button" 
-    style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i class="fas fa-pen"></i>글쓰기</a>
-{% endif %}
+{% comment %} {% load static %}
 
-{% if user.is_authenticated and user.volunteer == False %}
-    <a class="btn btn-info btn-sm float-right" href="{% url 'post:mypost' user.pk %}" role="button" 
-    style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i class="fas fa-pen"></i>내 글 보기</a>
-{% endif %}
+
+{% include 'product/product_nav.html' %}
+<link rel="stylesheet" href="{% static 'css1/pico.min.css' %}">
+<body style="background-color:white">
+    
+
+    
+<div class="container-footer text-muted" style = " margin-top:1rem; margin-bottom:1rem; margin-right:0.5rem;">
+    {% if user.is_authenticated and user.volunteer == False%}
+    <div style="float:right;">
+        <a class="btn btn-info btn-sm " href="/post/create_post/" role="button" 
+        style="background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i class="fas fa-pen"></i>글쓰기</a>
+    {% endif %}
+    {% if user.is_authenticated and user.volunteer == False %}
+        <a class="btn btn-info btn-sm " href="{% url 'post:mypost' user.pk %}" role="button" 
+        style=" background-color: RGB(33, 37, 41); border:RGB(33, 37, 41); color: white;"><i class="fas fa-pen"></i>내 글 보기</a>
+    {% endif %}
+    </div>
+</div>
 
 {% if post_list.exists %}   
 <!-- Blog post 영역-->
-{% for p in post_list %}     
+<div style="margin-top:4.5rem">
+{% for p in post_list %}   
+
+<table role="grid">
+    <thead>
+        <td>
 <div class="container my-4" id="post-{{p.pk}}">
     <div class="container-body">
         <h5 class="container-title" href="{{p.get_absolute_url}}"><a href="{{p.get_absolute_url}}" class="btn btn-primary" >
             {{p.title}}</a></h5>  
     </div>
+</td>
+</thead>
     <div class="container-footer text-muted">
         {{p.created_at|date:'y.m.d'}}
     </div>
+    
 </div>
-{% endfor %}      <!--for문 끝-->
+</table>
+
+{% endfor %}   
+</div>   <!--for문 끝-->
 {% endif %}
 
 
+{% include 'post/post_search.html' %}
+</body> {% endcomment %}
+
+
+{% load static %}
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'post_list.css' %}">
+
+    <title>공고글</title>
+</head>
+<body style="padding:11vh 0">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    {% include 'first/base.html' %}
+    <!-- 1. 게시판의 화면은 class="card"로 적용 -->
+    <div class="card">
+
+        <!-- 1-1. 게시판 이름은 class="card-header"로  <div>로 구역 설정 -->
+    <div>     
+        <div class="card-header"><h1>동행자 모집</h1></div>
+        {% if user.is_authenticated and user.volunteer == False %}
+        <div class="btn" style="float:right">
+            <a href="/post/create_post/" style="text-decoration:none">글쓰기</a>
+            <a href="{% url 'post:mypost' user.pk %}" 
+            style="text-decoration:none">내 글 보기</a>
+        </div>
+        {% endif %}
+        
+    </div>
+
+        <!-- 1-2. 내용은 class="card-body"로 <div>로 구역 설정 -->
+        <div class="card-body">
+            {% include 'post/search_post.html' %}
+         
+                        <!-- 내용을 HTML로 작성하기 -->
+            {% if post_list.exists %}
+            {% for p in post_list %}
+                {% if p.ending == False %}
+                    <div class="content-box" id="post-{{p.pk}}">
+                        <div class="title"><a href="{{p.get_absolute_url}}"><a href="{{p.get_absolute_url}}" style="text-decoration:none; 
+                            font-size: 1.5rem; color:black;">
+                            {{p.title}}</a>
+                        </div>
+                            <div style="float:right">
+                                {{p.created_at|date:'y.m.d'}}
+                            </div>
+                            
+                    </div>
+                {% endif %} 
+            {% endfor %}      <!--for문 끝-->
+            {% endif %}
+            
+
+            
+        </div>
+
+        <!-- 1-3. 글쓰기 버튼은 class="btn"로 <div>로 구역 설정 -->
+        
+    </div>
+</body>
+</html>

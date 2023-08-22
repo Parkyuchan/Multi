@@ -1,4 +1,4 @@
-<!doctype html>
+<!--<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -21,5 +21,57 @@
         <input type ="submit" value="로그인">
     </form>
 {% endif %}
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in</title>
+    <meta name="description" content="A minimalist layout for Login pages. Built with Pico CSS." />
+    <link rel="shortcut icon" href="https://picocss.com/favicon.ico" />
+    <link rel="canonical" href="https://picocss.com/examples/sign-in/" />
+
+    <!-- Pico.css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+
+    <!-- Custom styles for this example -->
+    <link rel="stylesheet" href="css/custom.css" />
+    {% include 'product/product_nav.html' %}
+    <article data-theme="light">
+  </head>
+  <body>
+    <article class="grid">
+      <div>
+        <hgroup>
+          <h1>로그인</h1>
+          <h2>아이디와 비밀번호를 정확하게 입력하세요.</h2>
+        </hgroup>
+        
+        
+          
+
+          {% if user.is_authenticated %}
+              로그인성공!
+              {{ user.username}}님 환영합니다.
+          {% else %}
+              <form action="" method="POST">
+                
+                  {% csrf_token %}
+                  <input name ="username" type="username" placeholder="Login" aria-label="Login">
+                  <input name ="password" type="password" placeholder="password" aria-label="password">
+                  <input type ="submit" value="로그인">
+              </form>
+          {% endif %}
+        
+      </div>
+      <div></div>
+    </article>
+  </main>
+
+  <!-- Minimal theme switcher -->
+  <script src="js/minimal-theme-switcher.js"></script>
 </body>
 </html>

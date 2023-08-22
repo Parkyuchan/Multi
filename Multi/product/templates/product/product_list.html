@@ -1,50 +1,63 @@
 {% load static %}
-
+{% include 'product/product_nav.html' %}
 <link rel="stylesheet" href="{% static 'css1/pico.min.css' %}">
 <article data-theme="light">
-<!-- Categories widget-->
-<div class="card my-4" id="categories-cards">
-    <h5 class="card-header">카테고리별 제품 목록</h5>
-    <!--categories카드 header부분에 'Categories'삽입-->
-    <div class="card-body">
-        <div class="row">
-            {% for category in category_name %}
-            <!--categories의 종류만큼 반복-->
-            <li>
-                <a href="{{ category.get_absolute_url }}"  style="text-decoration: none; color: RGB(33, 37, 41);">
-                    {{ category }} ({{ category.product_set.count }})</a>
-                <!--카테고리명과 해당하는 게시물 개수 표시하고 해당부분 누르면 카테고리별 분류된 게시물 페이지로 이동-->
-            </li>
-            {% endfor %}
-            <!--for문 종료-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>    
+    <!-- Categories widget-->
+    <div class="card my-4" id="categories-cards">
+        <h5 class="card-header">카테고리별 제품 목록</h5>
+        <!--categories카드 header부분에 'Categories'삽입-->
+        <div class="card-body">
+            <div class="row">
+                {% for category in category_name %}
+                <!--categories의 종류만큼 반복-->
+                <li>
+                    <a href="{{ category.get_absolute_url }}"  style="text-decoration: none; color: RGB(33, 37, 41);">
+                        {{ category }} ({{ category.product_set.count }})</a>
+                    <!--카테고리명과 해당하는 게시물 개수 표시하고 해당부분 누르면 카테고리별 분류된 게시물 페이지로 이동-->
+                </li>
+                {% endfor %}
+                <!--for문 종료-->
+            </div>
         </div>
     </div>
-</div>
-
+       
 {% for p in product_list %}
-    <hr>
-    <li>제품명 : {{p.name}}</li>
-    <li>제품 분류 : {{p.category}}</li>
-    <li>제품 구분 : {{p.manu_f}}</li>
-    <li>업체명 : {{p.company}}</li>
-    {% if p.price_buy %}
-        <li>구입가격 : {{p.price_buy}}</li>
-    {% else %}
-        <li>구입가격 : 업체문의</li>
-    {% endif %}
-    {% if p.price_borrow %}
-        <li>대여가격 : {{p.price_borrow}}</li>
-    {% else %}
-        <li>구입가격 : 업체문의</li>
-    {% endif %}
-        <a href="{{p.url_go}}"><li>홈페이지 가기</li></a>
+    <article>
+        <header > 
+            <strong>
+            <hr>
+            <li >제품명 : {{p.name}}</li>
+            </strong>
+        </header>
+
+        <li>제품 분류 : {{p.category}}</li>
+        <li>제품 구분 : {{p.manu_f}}</li>
+        <li>업체명 : {{p.company}}</li>
+        {% if p.price_buy %}
+            <li>구입가격 : {{p.price_buy}}</li>
+        {% else %}
+            <li>구입가격 : 업체문의</li>
+        {% endif %}
+        {% if p.price_borrow %}
+            <li>대여가격 : {{p.price_borrow}}</li>
+        {% else %}
+            <li>구입가격 : 업체문의</li>
+            <footer>
+            {% endif %}
+                <a href="{{p.url_go}}"><li>홈페이지 가기</li></a>
+                <hr>
+                <a>조회수 : 23</a>
+            </footer>
+    </article>
+    
         
     
 {% endfor %}
 </article>
-
-<details>
-    <summary role="button">Accordion 1</summary>
-    <p>…</p>
-  </details>
-  
+</body>

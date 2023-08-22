@@ -1,0 +1,22 @@
+
+                    <nav style="background-color:bl"> 
+                            
+                            <li><strong>
+                                <a class="navbar-brand" href="/">보건 동행</a>
+                            </strong></li>
+                            
+                            
+                            <ul class="navbar-nav ms-auto">
+                                {% if user.is_authenticated %}
+                                    <div class="nav-link py-3 px-0 px-lg-3 rounded">{{ user.username }} 님</div>
+                                    <li><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/accounts/logout/">로그아웃</a></li>
+                                    <li><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/accounts/{{user.pk}}/update/">마이페이지</a></li>
+                                {% else %}
+                                    <li><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/accounts/login/">로그인</a></li>
+                                    <li><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/accounts/register/">회원가입</a></li>   
+                                    
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </nav>
+                

@@ -1,11 +1,17 @@
 {% include "first/base.html" %}
 {% load bootstrap4 %}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="padding:11vh 0">
+  <div class="container mt-4">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form postForm %}
 
-<div class="container mt-4">
-  <form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form postForm %}
-
-    <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
-  </form>
-</div>
+      <button type="submit" class="btn btn-primary rounded-pill col-12">동행공고 작성</button>
+    </form>
+  </div>
+</body>

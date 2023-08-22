@@ -6,13 +6,40 @@ from .forms import PostForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from datetime import date, datetime, timedelta
 
 class PostList(ListView):
     model = Post
     ordering = '-pk'
-
-class PostDetail(DetailView):
-    model = Post
+    
+'''class PostDetail(DetailView):
+    model = Post'''
+    
+    
+def post_detail(request, pk):
+    login_session = request.session.get('login_session', '')
+    context={ 'login_session':login_session}
+    post = get_object_or_404(Post, pk=pk)
+    context['post'] = post
+    
+    response = render(request, 'post/post_detail.html', context)
+    
+    expire_date, now = datetime.now(), datetime.now()
+    expire_date += timedelta(days=1)
+    expire_date = expire_date.replace(hour=0, minute=0, microsecond=0)
+    expire_date -= now
+    max_age = expire_date.total_seconds()
+    
+    cookie_value = request.COOKIES.get('hitpost', '_')
+    
+    if f'_{pk}_' not in cookie_value:
+        cookie_value += f'{pk}_'
+        response.set_cookie('hitpost', value=cookie_value, max_age=max_age, httponly=True)
+        post.hits+=1
+        post.save()
+    return response
+    
+        
 def createPost(request):
     if request.method == 'POST':
         title = request.POST['title']
@@ -46,7 +73,7 @@ class PostSearch(PostList):
     def get_queryset(self):
         q = self.kwargs['q']
         post_list = Post.objects.filter(
-            Q(title__contains=q)
+            Q(arrive_place__contains=q)
         ).distinct()
         return post_list
 

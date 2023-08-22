@@ -11,6 +11,8 @@ class Post(models.Model):
     started_date = models.DateField(blank=True, null=True)
     started_time = models.TimeField(blank=True, null=True)
     arrive_place = models.CharField(max_length=30)
+    hits = models.PositiveIntegerField(default=0, verbose_name='조회수')
+
     
     ending = models.BooleanField(default=False, blank = True)
     followings = models.ManyToManyField("accounts.User", blank=True, symmetrical=False, related_name='followers')
