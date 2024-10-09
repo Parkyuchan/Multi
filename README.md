@@ -1,5 +1,9 @@
 # Multi
 * KHIDI 공공데이터 활용 공모전
+
+사용 Framework : Django
+사용 Language : Python, HTML, CSS
+사용 DB : MySQL
   
 교통약자를 위한 보건동행 서비스입니다.
 
