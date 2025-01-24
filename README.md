@@ -1,9 +1,9 @@
 # Multi
 * KHIDI 공공데이터 활용 공모전
 
-**사용 Framework**: Django  
-**사용 Language**: Python, HTML, CSS  
-**사용 DB**: MariaDB  
+**사용 Framework**: <img src="https://img.shields.io/badge/Django-3766AB?style=flat-square&logo=Django&logoColor=white"/>  
+**사용 Language**: <img src="https://img.shields.io/badge/Python-3766AB?style=flat-square&logo=Python&logoColor=white"/>, <img src="https://img.shields.io/badge/HTML-3766AB?style=flat-square&logo=HTML&logoColor=white"/>, <img src="https://img.shields.io/badge/CSS-3766AB?style=flat-square&logo=CSS&logoColor=white"/>  
+**사용 DB**: <img src="https://img.shields.io/badge/MariaDB-3766AB?style=flat-square&logo=MariaDB&logoColor=white"/>  
 
 교통약자를 위한 보건동행 서비스입니다.
 
