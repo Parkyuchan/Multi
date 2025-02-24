@@ -2,7 +2,7 @@
 * KHIDI 공공데이터 활용 공모전
 
 **사용 Framework**: <img src="https://img.shields.io/badge/Django-3766AB?style=flat-square&logo=Django&logoColor=white"/>  
-**사용 Language**: <img src="https://img.shields.io/badge/Python-3766AB?style=flat-square&logo=Python&logoColor=white"/>, <img src="https://img.shields.io/badge/HTML-3766AB?style=flat-square&logo=HTML&logoColor=white"/>, <img src="https://img.shields.io/badge/CSS-3766AB?style=flat-square&logo=CSS&logoColor=white"/>  
+**사용 Language**: <img src="https://img.shields.io/badge/Python-3766AB?style=flat-square&logo=Python&logoColor=white"/>, <img src="https://img.shields.io/badge/HTML5-3766AB?style=flat-square&logo=HTML5&logoColor=white"/>, <img src="https://img.shields.io/badge/CSS-3766AB?style=flat-square&logo=CSS&logoColor=white"/>, <img src="https://img.shields.io/badge/JavaScript-3766AB?style=flat-square&logo=JavaScript&logoColor=white"/>  
 **사용 DB**: <img src="https://img.shields.io/badge/MariaDB-3766AB?style=flat-square&logo=MariaDB&logoColor=white"/>  
 
 교통약자를 위한 보건동행 서비스입니다.
@@ -21,11 +21,6 @@
 
 ### 메인 화면 2
 <img src="https://github.com/user-attachments/assets/72991c94-16b1-4ce5-aaba-b0210c60285c" width="30%">
-
-**----------------------------------------------------------------------------------------------------------**
-
-### 회원가입 - 자원 봉사자 여부 확인
-<img src="https://github.com/user-attachments/assets/5970cc0f-4ba2-4fed-831f-73ac14f0da0b" width="30%">
 
 **----------------------------------------------------------------------------------------------------------**
 ### 로그인
@@ -62,11 +57,6 @@
 
 ### 동행자 매칭 완료 글 확인
 <img src="https://github.com/user-attachments/assets/dd3d709f-1eb2-49ea-94b6-09aba7c1b71c" width="30%">
-
-**----------------------------------------------------------------------------------------------------------**
-
-### 동행자 정보 확인
-<img src="https://github.com/user-attachments/assets/8c46287a-908c-482f-ae27-841c3c14f634" width="30%">
 
 **----------------------------------------------------------------------------------------------------------**
 
